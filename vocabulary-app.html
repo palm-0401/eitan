@@ -62,7 +62,7 @@
         .menu-btn {
             background: linear-gradient(45deg, #dc143c, #8b4513);
             color: #fffefe;
-            border: 2px solid #b22222;
+            border: none;
             padding: 20px;
             border-radius: 10px;
             font-size: 1.2em;
@@ -79,7 +79,7 @@
         .back-btn {
             background: #cd5c5c;
             color: #fffefe;
-            border: 2px solid #b22222;
+            border: none;
             padding: 10px 20px;
             border-radius: 5px;
             cursor: pointer;
@@ -120,7 +120,7 @@
         .btn {
             background: #dc143c;
             color: #fffefe;
-            border: 2px solid #b22222;
+            border: none;
             padding: 12px 30px;
             border-radius: 8px;
             cursor: pointer;
@@ -181,6 +181,7 @@
             border-radius: 8px;
             border-left: 4px solid #dc143c;
             box-shadow: 0 2px 4px rgba(220, 20, 60, 0.1);
+            position: relative;
         }
 
         .word-item .english {
@@ -193,6 +194,69 @@
         .word-item .japanese {
             color: #cd5c5c;
             font-size: 1.1em;
+        }
+
+        .word-actions {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-small {
+            background: #8b4513;
+            color: #fffefe;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.8em;
+            transition: all 0.3s ease;
+        }
+
+        .btn-small:hover {
+            background: #a0522d;
+            transform: translateY(-1px);
+        }
+
+        .btn-small.edit {
+            background: #dc143c;
+        }
+
+        .btn-small.edit:hover {
+            background: #ff1744;
+        }
+
+        .btn-small.delete {
+            background: #8b0000;
+        }
+
+        .btn-small.delete:hover {
+            background: #b22222;
+        }
+
+        .edit-form {
+            background: #fffefe;
+            padding: 20px;
+            border-radius: 8px;
+            border: 2px solid #dc143c;
+            margin: 20px 0;
+        }
+
+        .edit-form input {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            border: 2px solid #e8b4b4;
+            border-radius: 5px;
+            background: #fffefe;
+            color: #8b4513;
+        }
+
+        .edit-form input:focus {
+            border-color: #dc143c;
+            outline: none;
         }
 
         .reading-controls {
@@ -523,6 +587,8 @@
             document.getElementById('translate-btn').style.display = 'none';
         }
 
+        let editingWordId = null;
+
         function displayWords() {
             const wordListElement = document.getElementById('word-list');
 
@@ -536,12 +602,75 @@
                 return;
             }
 
-            wordListElement.innerHTML = words.map(word => `
-                <div class="word-item">
-                    <div class="english">${word.english}</div>
-                    <div class="japanese">${word.japanese}</div>
-                </div>
-            `).join('');
+            wordListElement.innerHTML = words.map(word => {
+                if (editingWordId === word.id) {
+                    return `
+                        <div class="edit-form">
+                            <input type="text" id="edit-english-${word.id}" value="${word.english}" placeholder="英単語">
+                            <input type="text" id="edit-japanese-${word.id}" value="${word.japanese}" placeholder="日本語訳">
+                            <div style="margin-top: 10px;">
+                                <button class="btn-small" onclick="saveEdit(${word.id})">保存</button>
+                                <button class="btn-small" onclick="cancelEdit()">キャンセル</button>
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    return `
+                        <div class="word-item">
+                            <div class="word-actions">
+                                <button class="btn-small edit" onclick="editWord(${word.id})">編集</button>
+                                <button class="btn-small delete" onclick="deleteWord(${word.id})">削除</button>
+                            </div>
+                            <div class="english">${word.english}</div>
+                            <div class="japanese">${word.japanese}</div>
+                        </div>
+                    `;
+                }
+            }).join('');
+        }
+
+        function editWord(id) {
+            editingWordId = id;
+            displayWords();
+        }
+
+        function cancelEdit() {
+            editingWordId = null;
+            displayWords();
+        }
+
+        function saveEdit(id) {
+            const englishInput = document.getElementById(`edit-english-${id}`);
+            const japaneseInput = document.getElementById(`edit-japanese-${id}`);
+
+            const newEnglish = englishInput.value.trim();
+            const newJapanese = japaneseInput.value.trim();
+
+            if (!newEnglish || !newJapanese) {
+                alert('英単語と日本語訳の両方を入力してください。');
+                return;
+            }
+
+            const wordIndex = words.findIndex(word => word.id === id);
+            if (wordIndex !== -1) {
+                words[wordIndex].english = newEnglish;
+                words[wordIndex].japanese = newJapanese;
+                localStorage.setItem('vocabulary-words', JSON.stringify(words));
+                editingWordId = null;
+                displayWords();
+                alert('単語を更新しました！');
+            }
+        }
+
+        function deleteWord(id) {
+            const word = words.find(w => w.id === id);
+            if (word && confirm(`「${word.english}」を削除してもよろしいですか？`)) {
+                words = words.filter(w => w.id !== id);
+                localStorage.setItem('vocabulary-words', JSON.stringify(words));
+                displayWords();
+                updateWordCount();
+                alert('単語を削除しました。');
+            }
         }
 
         function clearAllWords() {

@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>英単語帳アプリ</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .content {
+            padding: 30px;
+        }
+
+        .screen {
+            display: none;
+        }
+
+        .screen.active {
+            display: block;
+        }
+
+        .menu-buttons {
+            display: grid;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .menu-btn {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 20px;
+            border-radius: 10px;
+            font-size: 1.2em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .menu-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .back-btn {
+            background: #6c757d;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1em;
+        }
+
+        .form-group input:focus {
+            border-color: #667eea;
+            outline: none;
+        }
+
+        .btn {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+
+        .btn:hover {
+            background: #218838;
+        }
+
+        .btn-danger {
+            background: #dc3545;
+        }
+
+        .btn-danger:hover {
+            background: #c82333;
+        }
+
+        .btn-info {
+            background: #17a2b8;
+        }
+
+        .btn-info:hover {
+            background: #138496;
+        }
+
+        .file-input {
+            margin: 20px 0;
+        }
+
+        .file-input input[type="file"] {
+            width: 100%;
+            padding: 10px;
+            border: 2px dashed #667eea;
+            border-radius: 8px;
+            background: #f8f9fa;
+            cursor: pointer;
+        }
+
+        .word-list {
+            max-height: 400px;
+            overflow-y: auto;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+        }
+
+        .word-item {
+            background: #f8f9fa;
+            margin-bottom: 15px;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+
+        .word-item .english {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .word-item .japanese {
+            color: #666;
+            font-size: 1.1em;
+        }
+
+        .reading-controls {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .reading-controls button {
+            margin: 10px;
+            padding: 15px 30px;
+            font-size: 1.1em;
+        }
+
+        .current-word {
+            background: #e3f2fd;
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+            margin: 20px 0;
+            border: 2px solid #2196f3;
+        }
+
+        .current-word .english {
+            font-size: 2em;
+            font-weight: bold;
+            color: #1976d2;
+            margin-bottom: 10px;
+        }
+
+        .current-word .japanese {
+            font-size: 1.5em;
+            color: #424242;
+        }
+
+        .speed-control {
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .speed-control label {
+            margin-right: 10px;
+        }
+
+        .speed-control input {
+            width: 200px;
+        }
+
+        .empty-state {
+            text-align: center;
+            color: #666;
+            padding: 50px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📚 英単語帳アプリ</h1>
+            <p>英単語を登録して効率的に学習しましょう</p>
+        </div>
+
+        <div class="content">
+            <!-- メニュー画面 -->
+            <div id="menu-screen" class="screen active">
+                <h2>メニューを選択してください</h2>
+                <div class="menu-buttons">
+                    <button class="menu-btn" onclick="showScreen('register-screen')">
+                        📝 １．英単語登録
+                    </button>
+                    <button class="menu-btn" onclick="showScreen('browse-screen')">
+                        📖 ２．登録単語を閲覧
+                    </button>
+                    <button class="menu-btn" onclick="showScreen('reading-screen')">
+                        🔊 ３．自動読み上げ学習
+                    </button>
+                </div>
+                <div style="margin-top: 30px; text-align: center; color: #666;">
+                    登録単語数: <span id="word-count">0</span>語
+                </div>
+            </div>
+
+            <!-- 単語登録画面 -->
+            <div id="register-screen" class="screen">
+                <button class="back-btn" onclick="showScreen('menu-screen')">← メニューに戻る</button>
+                <h2>英単語を登録</h2>
+                <form id="word-form">
+                    <div class="form-group">
+                        <label for="english-word">英単語</label>
+                        <input type="text" id="english-word" required placeholder="例: apple">
+                    </div>
+                    <div class="form-group">
+                        <label for="japanese-word">日本語訳</label>
+                        <input type="text" id="japanese-word" required placeholder="例: りんご">
+                    </div>
+                    <button type="submit" class="btn">登録する</button>
+                    <button type="button" class="btn btn-danger" onclick="clearForm()">クリア</button>
+                </form>
+            </div>
+
+            <!-- 単語閲覧画面 -->
+            <div id="browse-screen" class="screen">
+                <button class="back-btn" onclick="showScreen('menu-screen')">← メニューに戻る</button>
+                <h2>登録済み単語一覧</h2>
+                <div id="word-list" class="word-list">
+                    <div class="empty-state">
+                        まだ単語が登録されていません。<br>
+                        「英単語登録」から単語を追加してください。
+                    </div>
+                </div>
+                <div style="margin-top: 20px; text-align: center;">
+                    <button class="btn btn-info" onclick="exportToTextFile()">📄 テキストファイルに保存</button>
+                    <button class="btn btn-info" onclick="document.getElementById('file-input').click()">📁 テキストファイルから読み込み</button>
+                    <button class="btn btn-danger" onclick="clearAllWords()">全単語削除</button>
+                </div>
+                <div class="file-input">
+                    <input type="file" id="file-input" accept=".txt" onchange="importFromTextFile(event)" style="display: none;">
+                </div>
+            </div>
+
+            <!-- 読み上げ学習画面 -->
+            <div id="reading-screen" class="screen">
+                <button class="back-btn" onclick="showScreen('menu-screen')">← メニューに戻る</button>
+                <h2>自動読み上げ学習</h2>
+
+                <div class="current-word" id="current-word-display">
+                    <div class="english">単語を選択してください</div>
+                    <div class="japanese">学習を開始するボタンを押してください</div>
+                </div>
+
+                <div class="reading-controls">
+                    <button class="btn" id="start-reading-btn" onclick="startReading()">学習開始</button>
+                    <button class="btn" id="pause-reading-btn" onclick="pauseReading()" style="display: none;">一時停止</button>
+                    <button class="btn" id="stop-reading-btn" onclick="stopReading()">停止</button>
+                    <button class="btn" onclick="nextWord()">次の単語</button>
+                </div>
+
+                <div class="speed-control">
+                    <label>読み上げ間隔:</label>
+                    <input type="range" id="speed-slider" min="1000" max="10000" value="3000">
+                    <span id="speed-value">3.0秒</span>
+                </div>
+
+                <div id="reading-empty-state" class="empty-state" style="display: none;">
+                    単語が登録されていません。<br>
+                    「英単語登録」から単語を追加してください。
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let words = JSON.parse(localStorage.getItem('vocabulary-words') || '[]');
+        let currentWordIndex = 0;
+        let readingInterval = null;
+        let isReading = false;
+
+        function showScreen(screenId) {
+            document.querySelectorAll('.screen').forEach(screen => {
+                screen.classList.remove('active');
+            });
+            document.getElementById(screenId).classList.add('active');
+
+            if (screenId === 'browse-screen') {
+                displayWords();
+            } else if (screenId === 'reading-screen') {
+                setupReadingScreen();
+            } else if (screenId === 'menu-screen') {
+                updateWordCount();
+            }
+        }
+
+        function updateWordCount() {
+            document.getElementById('word-count').textContent = words.length;
+        }
+
+        document.getElementById('word-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const englishWord = document.getElementById('english-word').value.trim();
+            const japaneseWord = document.getElementById('japanese-word').value.trim();
+
+            if (englishWord && japaneseWord) {
+                const newWord = {
+                    id: Date.now(),
+                    english: englishWord,
+                    japanese: japaneseWord
+                };
+
+                words.push(newWord);
+                localStorage.setItem('vocabulary-words', JSON.stringify(words));
+
+                alert('単語を登録しました！');
+                clearForm();
+                updateWordCount();
+            }
+        });
+
+        function clearForm() {
+            document.getElementById('english-word').value = '';
+            document.getElementById('japanese-word').value = '';
+        }
+
+        function displayWords() {
+            const wordListElement = document.getElementById('word-list');
+
+            if (words.length === 0) {
+                wordListElement.innerHTML = `
+                    <div class="empty-state">
+                        まだ単語が登録されていません。<br>
+                        「英単語登録」から単語を追加してください。
+                    </div>
+                `;
+                return;
+            }
+
+            wordListElement.innerHTML = words.map(word => `
+                <div class="word-item">
+                    <div class="english">${word.english}</div>
+                    <div class="japanese">${word.japanese}</div>
+                </div>
+            `).join('');
+        }
+
+        function clearAllWords() {
+            if (confirm('全ての単語を削除してもよろしいですか？')) {
+                words = [];
+                localStorage.removeItem('vocabulary-words');
+                displayWords();
+                updateWordCount();
+                alert('全ての単語を削除しました。');
+            }
+        }
+
+        function setupReadingScreen() {
+            if (words.length === 0) {
+                document.getElementById('current-word-display').style.display = 'none';
+                document.getElementById('reading-empty-state').style.display = 'block';
+                return;
+            }
+
+            document.getElementById('current-word-display').style.display = 'block';
+            document.getElementById('reading-empty-state').style.display = 'none';
+            currentWordIndex = 0;
+            displayCurrentWord();
+        }
+
+        function displayCurrentWord() {
+            if (words.length === 0) return;
+
+            const currentWord = words[currentWordIndex];
+            document.getElementById('current-word-display').innerHTML = `
+                <div class="english">${currentWord.english}</div>
+                <div class="japanese">${currentWord.japanese}</div>
+            `;
+        }
+
+        function speak(text, lang = 'en-US') {
+            if ('speechSynthesis' in window) {
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = lang;
+                utterance.rate = 0.8;
+                speechSynthesis.speak(utterance);
+            }
+        }
+
+        function startReading() {
+            if (words.length === 0) return;
+
+            isReading = true;
+            document.getElementById('start-reading-btn').style.display = 'none';
+            document.getElementById('pause-reading-btn').style.display = 'inline-block';
+
+            readCurrentWord();
+
+            const interval = parseInt(document.getElementById('speed-slider').value);
+            readingInterval = setInterval(() => {
+                nextWord();
+                readCurrentWord();
+            }, interval);
+        }
+
+        function pauseReading() {
+            isReading = false;
+            clearInterval(readingInterval);
+            document.getElementById('start-reading-btn').style.display = 'inline-block';
+            document.getElementById('pause-reading-btn').style.display = 'none';
+            speechSynthesis.cancel();
+        }
+
+        function stopReading() {
+            isReading = false;
+            clearInterval(readingInterval);
+            document.getElementById('start-reading-btn').style.display = 'inline-block';
+            document.getElementById('pause-reading-btn').style.display = 'none';
+            speechSynthesis.cancel();
+            currentWordIndex = 0;
+            displayCurrentWord();
+        }
+
+        function readCurrentWord() {
+            if (words.length === 0) return;
+
+            const currentWord = words[currentWordIndex];
+            speak(currentWord.english, 'en-US');
+
+            setTimeout(() => {
+                speak(currentWord.japanese, 'ja-JP');
+            }, 1500);
+        }
+
+        function nextWord() {
+            if (words.length === 0) return;
+            currentWordIndex = (currentWordIndex + 1) % words.length;
+            displayCurrentWord();
+        }
+
+        document.getElementById('speed-slider').addEventListener('input', function(e) {
+            const value = parseInt(e.target.value);
+            document.getElementById('speed-value').textContent = (value / 1000).toFixed(1) + '秒';
+
+            if (isReading) {
+                clearInterval(readingInterval);
+                readingInterval = setInterval(() => {
+                    nextWord();
+                    readCurrentWord();
+                }, value);
+            }
+        });
+
+        function exportToTextFile() {
+            if (words.length === 0) {
+                alert('保存する単語がありません。');
+                return;
+            }
+
+            const textContent = words.map(word => `${word.english}\t${word.japanese}`).join('\n');
+            const blob = new Blob([textContent], { type: 'text/plain;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'vocabulary-words.txt';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+
+            alert(`${words.length}語をvocabulary-words.txtとして保存しました！`);
+        }
+
+        function importFromTextFile(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const content = e.target.result;
+                    const lines = content.split('\n').filter(line => line.trim());
+
+                    const importedWords = [];
+                    let errorCount = 0;
+
+                    lines.forEach((line, index) => {
+                        const parts = line.split('\t');
+                        if (parts.length >= 2 && parts[0].trim() && parts[1].trim()) {
+                            importedWords.push({
+                                id: Date.now() + index,
+                                english: parts[0].trim(),
+                                japanese: parts[1].trim()
+                            });
+                        } else {
+                            errorCount++;
+                        }
+                    });
+
+                    if (importedWords.length > 0) {
+                        if (confirm(`${importedWords.length}語の単語が見つかりました。\n既存の単語に追加しますか？\n（重複チェックは行いません）`)) {
+                            words = words.concat(importedWords);
+                            localStorage.setItem('vocabulary-words', JSON.stringify(words));
+                            displayWords();
+                            updateWordCount();
+
+                            let message = `${importedWords.length}語を追加しました！`;
+                            if (errorCount > 0) {
+                                message += `\n${errorCount}行はスキップされました。`;
+                            }
+                            alert(message);
+                        }
+                    } else {
+                        alert('有効な単語データが見つかりませんでした。\nファイル形式：英単語[タブ]日本語訳');
+                    }
+                } catch (error) {
+                    alert('ファイルの読み込みに失敗しました。');
+                }
+            };
+
+            reader.readAsText(file, 'UTF-8');
+            event.target.value = '';
+        }
+
+        updateWordCount();
+    </script>
+</body>
+</html>

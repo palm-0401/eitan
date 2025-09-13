@@ -337,7 +337,10 @@
                         📖 ２．登録単語を閲覧
                     </button>
                     <button class="menu-btn" onclick="showScreen('reading-screen')">
-                        🔊 ３．自動読み上げ学習
+                        🔊 ３．自動読み上げ学習（英語→日本語）
+                    </button>
+                    <button class="menu-btn" onclick="showScreen('reading-reverse-screen')">
+                        🔄 ４．自動読み上げ学習（日本語→英語）
                     </button>
                 </div>
                 <div style="margin-top: 30px; text-align: center; color: #cd5c5c;">
@@ -423,6 +426,46 @@
                     「英単語登録」から単語を追加してください。
                 </div>
             </div>
+
+            <!-- 読み上げ学習画面（日本語→英語） -->
+            <div id="reading-reverse-screen" class="screen">
+                <button class="back-btn" onclick="showScreen('menu-screen')">← メニューに戻る</button>
+                <h2>自動読み上げ学習（日本語→英語）</h2>
+
+                <div class="current-word" id="current-word-display-reverse">
+                    <div class="japanese">単語を選択してください</div>
+                    <div class="english">学習を開始するボタンを押してください</div>
+                </div>
+
+                <div class="reading-controls">
+                    <button class="btn" id="start-reading-reverse-btn" onclick="startReadingReverse()">学習開始</button>
+                    <button class="btn" id="pause-reading-reverse-btn" onclick="pauseReadingReverse()" style="display: none;">一時停止</button>
+                    <button class="btn" id="stop-reading-reverse-btn" onclick="stopReadingReverse()">停止</button>
+                    <button class="btn" onclick="nextWordReverse()">次の単語</button>
+                </div>
+
+                <div class="sleep-timer-controls" style="text-align: center; margin: 20px 0;">
+                    <h3 style="color: #8b4513; margin-bottom: 15px;">💤 スリープタイマー</h3>
+                    <button class="btn-small" onclick="setSleepTimerReverse(30)">⏱ 30分</button>
+                    <button class="btn-small" onclick="setSleepTimerReverse(60)">⏱ 1時間</button>
+                    <button class="btn-small" id="cancel-timer-reverse-btn" onclick="cancelSleepTimerReverse()" style="display: none;">タイマー解除</button>
+                    <div id="timer-display-reverse" style="margin-top: 10px; color: #cd5c5c; font-weight: bold;"></div>
+                </div>
+
+                <div class="speed-control">
+                    <label>日本語→英語の間隔:</label>
+                    <input type="range" id="speed-slider-reverse" min="500" max="5000" value="1500">
+                    <span id="speed-value-reverse">1.5秒</span>
+                    <div style="margin-top: 10px; font-size: 0.9em; color: #cd5c5c;">
+                        英語→次の日本語の間隔: 2.0秒(固定)
+                    </div>
+                </div>
+
+                <div id="reading-reverse-empty-state" class="empty-state" style="display: none;">
+                    単語が登録されていません。<br>
+                    「英単語登録」から単語を追加してください。
+                </div>
+            </div>
         </div>
     </div>
 
@@ -434,6 +477,12 @@
         let sleepTimer = null;
         let sleepTimerInterval = null;
         let sleepTimeRemaining = 0;
+        let currentWordIndexReverse = 0;
+        let readingIntervalReverse = null;
+        let isReadingReverse = false;
+        let sleepTimerReverse = null;
+        let sleepTimerIntervalReverse = null;
+        let sleepTimeRemainingReverse = 0;
 
         function showScreen(screenId) {
             document.querySelectorAll('.screen').forEach(screen => {
@@ -445,6 +494,8 @@
                 displayWords();
             } else if (screenId === 'reading-screen') {
                 setupReadingScreen();
+            } else if (screenId === 'reading-reverse-screen') {
+                setupReadingReverseScreen();
             } else if (screenId === 'menu-screen') {
                 updateWordCount();
             }
@@ -931,6 +982,156 @@
         }
 
         updateWordCount();
+
+        // 日本語→英語読み上げ機能
+        function setupReadingReverseScreen() {
+            if (words.length === 0) {
+                document.getElementById('current-word-display-reverse').style.display = 'none';
+                document.getElementById('reading-reverse-empty-state').style.display = 'block';
+                return;
+            }
+
+            document.getElementById('current-word-display-reverse').style.display = 'block';
+            document.getElementById('reading-reverse-empty-state').style.display = 'none';
+            currentWordIndexReverse = 0;
+            displayCurrentWordReverse();
+        }
+
+        function displayCurrentWordReverse() {
+            if (words.length === 0) return;
+
+            const currentWord = words[currentWordIndexReverse];
+            document.getElementById('current-word-display-reverse').innerHTML = `
+                <div class="japanese">${currentWord.japanese}</div>
+                <div class="english">${currentWord.english}</div>
+            `;
+        }
+
+        function readCurrentWordReverse() {
+            if (words.length === 0) return;
+
+            const currentWord = words[currentWordIndexReverse];
+            const japaneseToEnglishInterval = parseInt(document.getElementById('speed-slider-reverse').value);
+
+            speak(currentWord.japanese, 'ja-JP');
+
+            setTimeout(() => {
+                speak(currentWord.english, 'en-US');
+            }, japaneseToEnglishInterval);
+        }
+
+        function startReadingReverse() {
+            if (words.length === 0) return;
+
+            isReadingReverse = true;
+            document.getElementById('start-reading-reverse-btn').style.display = 'none';
+            document.getElementById('pause-reading-reverse-btn').style.display = 'inline-block';
+
+            readCurrentWordReverse();
+            scheduleNextWordReverse();
+        }
+
+        function scheduleNextWordReverse() {
+            if (!isReadingReverse) return;
+
+            const japaneseToEnglishInterval = parseInt(document.getElementById('speed-slider-reverse').value);
+            const englishToNextJapaneseInterval = 2000;
+            const totalInterval = japaneseToEnglishInterval + englishToNextJapaneseInterval;
+
+            readingIntervalReverse = setTimeout(() => {
+                if (isReadingReverse) {
+                    nextWordReverse();
+                    readCurrentWordReverse();
+                    scheduleNextWordReverse();
+                }
+            }, totalInterval);
+        }
+
+        function pauseReadingReverse() {
+            isReadingReverse = false;
+            clearTimeout(readingIntervalReverse);
+            document.getElementById('start-reading-reverse-btn').style.display = 'inline-block';
+            document.getElementById('pause-reading-reverse-btn').style.display = 'none';
+            speechSynthesis.cancel();
+        }
+
+        function stopReadingReverse() {
+            isReadingReverse = false;
+            clearTimeout(readingIntervalReverse);
+            document.getElementById('start-reading-reverse-btn').style.display = 'inline-block';
+            document.getElementById('pause-reading-reverse-btn').style.display = 'none';
+            speechSynthesis.cancel();
+            currentWordIndexReverse = 0;
+            displayCurrentWordReverse();
+        }
+
+        function nextWordReverse() {
+            if (words.length === 0) return;
+            currentWordIndexReverse = (currentWordIndexReverse + 1) % words.length;
+            displayCurrentWordReverse();
+        }
+
+        function setSleepTimerReverse(minutes) {
+            if (sleepTimerReverse) {
+                clearTimeout(sleepTimerReverse);
+                clearInterval(sleepTimerIntervalReverse);
+            }
+
+            sleepTimeRemainingReverse = minutes * 60;
+
+            sleepTimerReverse = setTimeout(() => {
+                if (isReadingReverse) {
+                    stopReadingReverse();
+                }
+                alert(`スリープタイマーが作動し、学習を停止しました。`);
+                cancelSleepTimerReverse();
+            }, minutes * 60 * 1000);
+
+            sleepTimerIntervalReverse = setInterval(() => {
+                sleepTimeRemainingReverse--;
+                updateTimerDisplayReverse();
+                if (sleepTimeRemainingReverse <= 0) {
+                    clearInterval(sleepTimerIntervalReverse);
+                }
+            }, 1000);
+
+            document.getElementById('cancel-timer-reverse-btn').style.display = 'inline-block';
+            updateTimerDisplayReverse();
+            alert(`${minutes}分のスリープタイマーを設定しました。`);
+        }
+
+        function cancelSleepTimerReverse() {
+            if (sleepTimerReverse) {
+                clearTimeout(sleepTimerReverse);
+                sleepTimerReverse = null;
+            }
+            if (sleepTimerIntervalReverse) {
+                clearInterval(sleepTimerIntervalReverse);
+                sleepTimerIntervalReverse = null;
+            }
+            sleepTimeRemainingReverse = 0;
+            document.getElementById('cancel-timer-reverse-btn').style.display = 'none';
+            document.getElementById('timer-display-reverse').innerHTML = '';
+        }
+
+        function updateTimerDisplayReverse() {
+            if (sleepTimeRemainingReverse > 0) {
+                const minutes = Math.floor(sleepTimeRemainingReverse / 60);
+                const seconds = sleepTimeRemainingReverse % 60;
+                const display = `残り: ${minutes}分${seconds.toString().padStart(2, '0')}秒`;
+                document.getElementById('timer-display-reverse').innerHTML = display;
+            }
+        }
+
+        document.getElementById('speed-slider-reverse').addEventListener('input', function(e) {
+            const value = parseInt(e.target.value);
+            document.getElementById('speed-value-reverse').textContent = (value / 1000).toFixed(1) + '秒';
+
+            if (isReadingReverse) {
+                clearTimeout(readingIntervalReverse);
+                scheduleNextWordReverse();
+            }
+        });
     </script>
 </body>
 </html>

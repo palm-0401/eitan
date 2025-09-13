@@ -13,7 +13,7 @@
 
         body {
             font-family: 'Hiragino Kaku Gothic Pro', 'ヒラギノ角ゴ Pro', 'Yu Gothic Medium', '游ゴシック Medium', 'Yu Gothic', '游ゴシック', 'Meiryo', 'メイリオ', 'Verdana', 'Arial', sans-serif;
-            background: linear-gradient(135deg, #fdf2f0 0%, #f7e6e2 100%);
+            background: #ffffff;
             min-height: 100vh;
             padding: 20px;
         }
@@ -21,19 +21,19 @@
         .container {
             max-width: 800px;
             margin: 0 auto;
-            background: #fffefe;
-            border-radius: 15px;
-            box-shadow: 0 20px 40px rgba(139, 69, 19, 0.15);
-            border: 2px solid #e8b4b4;
+            background: #ffffff;
+            border-radius: 4px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border: 2px solid #333333;
             overflow: hidden;
         }
 
         .header {
-            background: linear-gradient(45deg, #dc143c, #8b4513);
-            color: #fffefe;
+            background: #dc143c;
+            color: #ffffff;
             padding: 30px;
             text-align: center;
-            box-shadow: 0 4px 8px rgba(220, 20, 60, 0.3);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
         .header h1 {
@@ -66,11 +66,11 @@
         }
 
         .menu-btn {
-            background: linear-gradient(45deg, #dc143c, #8b4513);
-            color: #fffefe;
+            background: linear-gradient(135deg, #f0f0f0 0%, #d0d0d0 100%);
+            color: #333333;
             border: none;
             padding: 20px;
-            border-radius: 10px;
+            border-radius: 4px;
             font-size: 1.2em;
             cursor: pointer;
             transition: all 0.3s ease;
@@ -78,22 +78,23 @@
 
         .menu-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(220, 20, 60, 0.4);
-            background: linear-gradient(45deg, #ff1744, #a0522d);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            background: linear-gradient(135deg, #e0e0e0 0%, #c0c0c0 100%);
         }
 
         .back-btn {
-            background: #cd5c5c;
-            color: #fffefe;
-            border: none;
+            background: #ffffff;
+            color: #333333;
+            border: 2px solid #333333;
             padding: 10px 20px;
-            border-radius: 5px;
+            border-radius: 4px;
             cursor: pointer;
             margin-bottom: 20px;
         }
 
         .back-btn:hover {
-            background: #dc143c;
+            background: #333333;
+            color: #ffffff;
         }
 
         .form-group {
@@ -104,17 +105,17 @@
             display: block;
             margin-bottom: 5px;
             font-weight: bold;
-            color: #8b4513;
+            color: #333333;
         }
 
         .form-group input {
             width: 100%;
             padding: 12px;
-            border: 2px solid #e8b4b4;
-            border-radius: 8px;
+            border: 2px solid #333333;
+            border-radius: 4px;
             font-size: 1em;
-            background: #fffefe;
-            color: #8b4513;
+            background: #ffffff;
+            color: #333333;
         }
 
         .form-group input:focus {
@@ -125,10 +126,10 @@
 
         .btn {
             background: #dc143c;
-            color: #fffefe;
-            border: none;
+            color: #ffffff;
+            border: 2px solid #dc143c;
             padding: 12px 30px;
-            border-radius: 8px;
+            border-radius: 4px;
             cursor: pointer;
             font-size: 1em;
             margin-right: 10px;
@@ -137,25 +138,30 @@
         }
 
         .btn:hover {
-            background: #ff1744;
+            background: #b01030;
+            border-color: #b01030;
             transform: translateY(-1px);
-            box-shadow: 0 4px 8px rgba(220, 20, 60, 0.3);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
 
         .btn-danger {
             background: #dc3545;
+            border-color: #dc3545;
         }
 
         .btn-danger:hover {
             background: #c82333;
+            border-color: #c82333;
         }
 
         .btn-info {
-            background: #8b4513;
+            background: #333333;
+            border-color: #333333;
         }
 
         .btn-info:hover {
-            background: #a0522d;
+            background: #555555;
+            border-color: #555555;
         }
 
         .file-input {
@@ -165,40 +171,41 @@
         .file-input input[type="file"] {
             width: 100%;
             padding: 10px;
-            border: 2px dashed #667eea;
-            border-radius: 8px;
-            background: #f8f9fa;
+            border: 2px dashed #333333;
+            border-radius: 4px;
+            background: #ffffff;
             cursor: pointer;
         }
 
         .word-list {
             max-height: 400px;
             overflow-y: auto;
-            border: 2px solid #e8b4b4;
-            border-radius: 8px;
+            border: 2px solid #333333;
+            border-radius: 4px;
             padding: 20px;
-            background: #fffefe;
+            background: #ffffff;
         }
 
         .word-item {
-            background: #fdf2f0;
+            background: #ffffff;
             margin-bottom: 15px;
             padding: 15px;
-            border-radius: 8px;
+            border-radius: 4px;
+            border: 2px solid #333333;
             border-left: 4px solid #dc143c;
-            box-shadow: 0 2px 4px rgba(220, 20, 60, 0.1);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             position: relative;
         }
 
         .word-item .english {
             font-size: 1.3em;
             font-weight: bold;
-            color: #8b4513;
+            color: #333333;
             margin-bottom: 5px;
         }
 
         .word-item .japanese {
-            color: #cd5c5c;
+            color: #666666;
             font-size: 1.1em;
         }
 
@@ -211,41 +218,46 @@
         }
 
         .btn-small {
-            background: #8b4513;
-            color: #fffefe;
-            border: none;
+            background: #333333;
+            color: #ffffff;
+            border: 2px solid #333333;
             padding: 6px 12px;
-            border-radius: 5px;
+            border-radius: 4px;
             cursor: pointer;
             font-size: 0.8em;
             transition: all 0.3s ease;
         }
 
         .btn-small:hover {
-            background: #a0522d;
+            background: #555555;
+            border-color: #555555;
             transform: translateY(-1px);
         }
 
         .btn-small.edit {
             background: #dc143c;
+            border-color: #dc143c;
         }
 
         .btn-small.edit:hover {
-            background: #ff1744;
+            background: #b01030;
+            border-color: #b01030;
         }
 
         .btn-small.delete {
-            background: #8b0000;
+            background: #dc3545;
+            border-color: #dc3545;
         }
 
         .btn-small.delete:hover {
-            background: #b22222;
+            background: #c82333;
+            border-color: #c82333;
         }
 
         .edit-form {
-            background: #fffefe;
+            background: #ffffff;
             padding: 20px;
-            border-radius: 8px;
+            border-radius: 4px;
             border: 2px solid #dc143c;
             margin: 20px 0;
         }
@@ -254,10 +266,10 @@
             width: 100%;
             padding: 10px;
             margin: 5px 0;
-            border: 2px solid #e8b4b4;
-            border-radius: 5px;
-            background: #fffefe;
-            color: #8b4513;
+            border: 2px solid #333333;
+            border-radius: 4px;
+            background: #ffffff;
+            color: #333333;
         }
 
         .edit-form input:focus {
@@ -277,25 +289,25 @@
         }
 
         .current-word {
-            background: #fdf2f0;
+            background: #ffffff;
             padding: 30px;
-            border-radius: 10px;
+            border-radius: 4px;
             text-align: center;
             margin: 20px 0;
             border: 2px solid #dc143c;
-            box-shadow: 0 4px 8px rgba(220, 20, 60, 0.2);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
 
         .current-word .english {
             font-size: 2em;
             font-weight: bold;
-            color: #8b4513;
+            color: #333333;
             margin-bottom: 10px;
         }
 
         .current-word .japanese {
             font-size: 1.5em;
-            color: #cd5c5c;
+            color: #666666;
         }
 
         .speed-control {
@@ -313,7 +325,7 @@
 
         .empty-state {
             text-align: center;
-            color: #cd5c5c;
+            color: #666666;
             padding: 50px;
         }
     </style>
@@ -342,7 +354,7 @@
                         🔄 ４．自動読み上げ学習（日本語→英語）
                     </button>
                 </div>
-                <div style="margin-top: 30px; text-align: center; color: #cd5c5c;">
+                <div style="margin-top: 30px; text-align: center; color: #666666;">
                     登録単語数: <span id="word-count">0</span>語
                 </div>
             </div>
@@ -351,8 +363,8 @@
             <div id="register-screen" class="screen">
                 <button class="back-btn" onclick="showScreen('menu-screen')">← メニューに戻る</button>
                 <h2>英単語を登録</h2>
-                <div style="margin-bottom: 30px; padding: 20px; background: #f5f2e8; border-radius: 10px; border: 2px solid #d4c4a0;">
-                    <h3 style="color: #8b4513; margin-bottom: 15px; text-align: center;">登録方法を選択</h3>
+                <div style="margin-bottom: 30px; padding: 20px; background: #ffffff; border-radius: 4px; border: 2px solid #333333;">
+                    <h3 style="color: #333333; margin-bottom: 15px; text-align: center;">登録方法を選択</h3>
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
                         <label style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
                             <input type="radio" name="input-mode" value="english" checked onchange="switchInputMode()">
@@ -373,7 +385,7 @@
                             <input type="text" id="english-input" placeholder="例: apple">
                         </div>
                         <div class="form-group">
-                            <label for="japanese-auto">日本語訳 <span style="font-size: 0.9em; color: #cd5c5c;">(自動取得)</span></label>
+                            <label for="japanese-auto">日本語訳 <span style="font-size: 0.9em; color: #dc143c;">(自動取得)</span></label>
                             <input type="text" id="japanese-auto" placeholder="英単語を入力すると自動で取得されます">
                         </div>
                     </div>
@@ -385,7 +397,7 @@
                             <input type="text" id="japanese-input" placeholder="例: りんご">
                         </div>
                         <div class="form-group">
-                            <label for="english-auto">英単語 <span style="font-size: 0.9em; color: #cd5c5c;">(自動取得)</span></label>
+                            <label for="english-auto">英単語 <span style="font-size: 0.9em; color: #dc143c;">(自動取得)</span></label>
                             <input type="text" id="english-auto" placeholder="日本語を入力すると自動で取得されます">
                         </div>
                     </div>
@@ -436,25 +448,25 @@
                 </div>
 
                 <div style="text-align: center; margin: 20px 0;">
-                    <label style="display: flex; align-items: center; justify-content: center; gap: 10px; color: #8b4513;">
+                    <label style="display: flex; align-items: center; justify-content: center; gap: 10px; color: #333333;">
                         <input type="checkbox" id="random-mode" style="transform: scale(1.2);">
                         <span>🎲 ランダムモード</span>
                     </label>
                 </div>
 
                 <div class="sleep-timer-controls" style="text-align: center; margin: 20px 0;">
-                    <h3 style="color: #8b4513; margin-bottom: 15px;">💪 スリープタイマー</h3>
+                    <h3 style="color: #333333; margin-bottom: 15px;">💪 スリープタイマー</h3>
                     <button class="btn-small" onclick="setSleepTimer(30)">┃ 30分</button>
                     <button class="btn-small" onclick="setSleepTimer(60)">┃ 1時間</button>
                     <button class="btn-small" id="cancel-timer-btn" onclick="cancelSleepTimer()" style="display: none;">タイマー解除</button>
-                    <div id="timer-display" style="margin-top: 10px; color: #cd5c5c; font-weight: bold;"></div>
+                    <div id="timer-display" style="margin-top: 10px; color: #dc143c; font-weight: bold;"></div>
                 </div>
 
                 <div class="speed-control">
                     <label>英語→日本語の間隔:</label>
                     <input type="range" id="speed-slider" min="500" max="5000" value="1500">
                     <span id="speed-value">1.5秒</span>
-                    <div style="margin-top: 10px; font-size: 0.9em; color: #cd5c5c;">
+                    <div style="margin-top: 10px; font-size: 0.9em; color: #666666;">
                         日本語→次の英語の間隔: 2.0秒(固定)
                     </div>
                 </div>
@@ -483,25 +495,25 @@
                 </div>
 
                 <div style="text-align: center; margin: 20px 0;">
-                    <label style="display: flex; align-items: center; justify-content: center; gap: 10px; color: #8b4513;">
+                    <label style="display: flex; align-items: center; justify-content: center; gap: 10px; color: #333333;">
                         <input type="checkbox" id="random-mode-reverse" style="transform: scale(1.2);">
                         <span>🎲 ランダムモード</span>
                     </label>
                 </div>
 
                 <div class="sleep-timer-controls" style="text-align: center; margin: 20px 0;">
-                    <h3 style="color: #8b4513; margin-bottom: 15px;">💤 スリープタイマー</h3>
+                    <h3 style="color: #333333; margin-bottom: 15px;">💤 スリープタイマー</h3>
                     <button class="btn-small" onclick="setSleepTimerReverse(30)">⏱ 30分</button>
                     <button class="btn-small" onclick="setSleepTimerReverse(60)">⏱ 1時間</button>
                     <button class="btn-small" id="cancel-timer-reverse-btn" onclick="cancelSleepTimerReverse()" style="display: none;">タイマー解除</button>
-                    <div id="timer-display-reverse" style="margin-top: 10px; color: #cd5c5c; font-weight: bold;"></div>
+                    <div id="timer-display-reverse" style="margin-top: 10px; color: #dc143c; font-weight: bold;"></div>
                 </div>
 
                 <div class="speed-control">
                     <label>日本語→英語の間隔:</label>
                     <input type="range" id="speed-slider-reverse" min="500" max="5000" value="1500">
                     <span id="speed-value-reverse">1.5秒</span>
-                    <div style="margin-top: 10px; font-size: 0.9em; color: #cd5c5c;">
+                    <div style="margin-top: 10px; font-size: 0.9em; color: #666666;">
                         英語→次の日本語の間隔: 2.0秒(固定)
                     </div>
                 </div>
@@ -528,6 +540,10 @@
         let sleepTimerReverse = null;
         let sleepTimerIntervalReverse = null;
         let sleepTimeRemainingReverse = 0;
+        let shuffledWords = [];
+        let shuffledWordsReverse = [];
+        let shuffleIndex = 0;
+        let shuffleIndexReverse = 0;
 
         function showScreen(screenId) {
             document.querySelectorAll('.screen').forEach(screen => {
@@ -961,7 +977,18 @@
             document.getElementById('current-word-display').style.display = 'block';
             document.getElementById('reading-empty-state').style.display = 'none';
             currentWordIndex = 0;
+            shuffleWords();
             displayCurrentWord();
+        }
+
+        function shuffleWords() {
+            const wordsNeedingStudy = getWordsNeedingStudy();
+            shuffledWords = [...wordsNeedingStudy];
+            for (let i = shuffledWords.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [shuffledWords[i], shuffledWords[j]] = [shuffledWords[j], shuffledWords[i]];
+            }
+            shuffleIndex = 0;
         }
 
         function toggleNeedsStudy(id) {
@@ -977,7 +1004,13 @@
             const wordsNeedingStudy = getWordsNeedingStudy();
             if (wordsNeedingStudy.length === 0) return;
 
-            const currentWord = wordsNeedingStudy[currentWordIndex % wordsNeedingStudy.length];
+            let currentWord;
+            if (document.getElementById('random-mode').checked) {
+                currentWord = shuffledWords[shuffleIndex];
+            } else {
+                currentWord = wordsNeedingStudy[currentWordIndex % wordsNeedingStudy.length];
+            }
+
             document.getElementById('current-word-display').innerHTML = `
                 <div class="english">${currentWord.english}</div>
                 <div class="japanese">${currentWord.japanese}</div>
@@ -1094,7 +1127,13 @@
             const wordsNeedingStudy = getWordsNeedingStudy();
             if (wordsNeedingStudy.length === 0) return;
 
-            const currentWord = wordsNeedingStudy[currentWordIndex % wordsNeedingStudy.length];
+            let currentWord;
+            if (document.getElementById('random-mode').checked) {
+                currentWord = shuffledWords[shuffleIndex];
+            } else {
+                currentWord = wordsNeedingStudy[currentWordIndex % wordsNeedingStudy.length];
+            }
+
             const englishToJapaneseInterval = parseInt(document.getElementById('speed-slider').value);
 
             speak(currentWord.english, 'en-US');
@@ -1109,7 +1148,10 @@
             if (wordsNeedingStudy.length === 0) return;
 
             if (document.getElementById('random-mode').checked) {
-                currentWordIndex = Math.floor(Math.random() * wordsNeedingStudy.length);
+                shuffleIndex = (shuffleIndex + 1) % shuffledWords.length;
+                if (shuffleIndex === 0) {
+                    shuffleWords();
+                }
             } else {
                 currentWordIndex = (currentWordIndex + 1) % wordsNeedingStudy.length;
             }
@@ -1213,14 +1255,31 @@
             document.getElementById('current-word-display-reverse').style.display = 'block';
             document.getElementById('reading-reverse-empty-state').style.display = 'none';
             currentWordIndexReverse = 0;
+            shuffleWordsReverse();
             displayCurrentWordReverse();
+        }
+
+        function shuffleWordsReverse() {
+            const wordsNeedingStudy = getWordsNeedingStudy();
+            shuffledWordsReverse = [...wordsNeedingStudy];
+            for (let i = shuffledWordsReverse.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [shuffledWordsReverse[i], shuffledWordsReverse[j]] = [shuffledWordsReverse[j], shuffledWordsReverse[i]];
+            }
+            shuffleIndexReverse = 0;
         }
 
         function displayCurrentWordReverse() {
             const wordsNeedingStudy = getWordsNeedingStudy();
             if (wordsNeedingStudy.length === 0) return;
 
-            const currentWord = wordsNeedingStudy[currentWordIndexReverse % wordsNeedingStudy.length];
+            let currentWord;
+            if (document.getElementById('random-mode-reverse').checked) {
+                currentWord = shuffledWordsReverse[shuffleIndexReverse];
+            } else {
+                currentWord = wordsNeedingStudy[currentWordIndexReverse % wordsNeedingStudy.length];
+            }
+
             document.getElementById('current-word-display-reverse').innerHTML = `
                 <div class="japanese">${currentWord.japanese}</div>
                 <div class="english">${currentWord.english}</div>
@@ -1231,7 +1290,13 @@
             const wordsNeedingStudy = getWordsNeedingStudy();
             if (wordsNeedingStudy.length === 0) return;
 
-            const currentWord = wordsNeedingStudy[currentWordIndexReverse % wordsNeedingStudy.length];
+            let currentWord;
+            if (document.getElementById('random-mode-reverse').checked) {
+                currentWord = shuffledWordsReverse[shuffleIndexReverse];
+            } else {
+                currentWord = wordsNeedingStudy[currentWordIndexReverse % wordsNeedingStudy.length];
+            }
+
             const japaneseToEnglishInterval = parseInt(document.getElementById('speed-slider-reverse').value);
 
             speak(currentWord.japanese, 'ja-JP');
@@ -1291,7 +1356,10 @@
             if (wordsNeedingStudy.length === 0) return;
 
             if (document.getElementById('random-mode-reverse').checked) {
-                currentWordIndexReverse = Math.floor(Math.random() * wordsNeedingStudy.length);
+                shuffleIndexReverse = (shuffleIndexReverse + 1) % shuffledWordsReverse.length;
+                if (shuffleIndexReverse === 0) {
+                    shuffleWordsReverse();
+                }
             } else {
                 currentWordIndexReverse = (currentWordIndexReverse + 1) % wordsNeedingStudy.length;
             }

@@ -41,6 +41,12 @@
             margin-bottom: 10px;
         }
 
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 1.8em;
+            }
+        }
+
         .content {
             padding: 30px;
         }
@@ -395,6 +401,14 @@
                     <button class="btn" onclick="nextWord()">次の単語</button>
                 </div>
 
+                <div class="sleep-timer-controls" style="text-align: center; margin: 20px 0;">
+                    <h3 style="color: #8b4513; margin-bottom: 15px;">💪 スリープタイマー</h3>
+                    <button class="btn-small" onclick="setSleepTimer(30)">┃ 30分</button>
+                    <button class="btn-small" onclick="setSleepTimer(60)">┃ 1時間</button>
+                    <button class="btn-small" id="cancel-timer-btn" onclick="cancelSleepTimer()" style="display: none;">タイマー解除</button>
+                    <div id="timer-display" style="margin-top: 10px; color: #cd5c5c; font-weight: bold;"></div>
+                </div>
+
                 <div class="speed-control">
                     <label>英語→日本語の間隔:</label>
                     <input type="range" id="speed-slider" min="500" max="5000" value="1500">
@@ -417,6 +431,9 @@
         let currentWordIndex = 0;
         let readingInterval = null;
         let isReading = false;
+        let sleepTimer = null;
+        let sleepTimerInterval = null;
+        let sleepTimeRemaining = 0;
 
         function showScreen(screenId) {
             document.querySelectorAll('.screen').forEach(screen => {
@@ -758,6 +775,58 @@
             speechSynthesis.cancel();
             currentWordIndex = 0;
             displayCurrentWord();
+        }
+
+        function setSleepTimer(minutes) {
+            if (sleepTimer) {
+                clearTimeout(sleepTimer);
+                clearInterval(sleepTimerInterval);
+            }
+
+            sleepTimeRemaining = minutes * 60;
+
+            sleepTimer = setTimeout(() => {
+                if (isReading) {
+                    stopReading();
+                }
+                alert(`スリープタイマーが作動し、学習を停止しました。`);
+                cancelSleepTimer();
+            }, minutes * 60 * 1000);
+
+            sleepTimerInterval = setInterval(() => {
+                sleepTimeRemaining--;
+                updateTimerDisplay();
+                if (sleepTimeRemaining <= 0) {
+                    clearInterval(sleepTimerInterval);
+                }
+            }, 1000);
+
+            document.getElementById('cancel-timer-btn').style.display = 'inline-block';
+            updateTimerDisplay();
+            alert(`${minutes}分のスリープタイマーを設定しました。`);
+        }
+
+        function cancelSleepTimer() {
+            if (sleepTimer) {
+                clearTimeout(sleepTimer);
+                sleepTimer = null;
+            }
+            if (sleepTimerInterval) {
+                clearInterval(sleepTimerInterval);
+                sleepTimerInterval = null;
+            }
+            sleepTimeRemaining = 0;
+            document.getElementById('cancel-timer-btn').style.display = 'none';
+            document.getElementById('timer-display').innerHTML = '';
+        }
+
+        function updateTimerDisplay() {
+            if (sleepTimeRemaining > 0) {
+                const minutes = Math.floor(sleepTimeRemaining / 60);
+                const seconds = sleepTimeRemaining % 60;
+                const display = `残り: ${minutes}分${seconds.toString().padStart(2, '0')}秒`;
+                document.getElementById('timer-display').innerHTML = display;
+            }
         }
 
         function readCurrentWord() {

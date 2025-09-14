@@ -250,6 +250,16 @@
             border-color: #b01030;
         }
 
+        .btn-small.detail {
+            background: #17a2b8;
+            border-color: #17a2b8;
+        }
+
+        .btn-small.detail:hover {
+            background: #138496;
+            border-color: #138496;
+        }
+
         .btn-small.delete {
             background: #dc3545;
             border-color: #dc3545;
@@ -884,7 +894,7 @@
             if (englishWord && japaneseWord && !invalidTranslations.includes(japaneseWord) && !invalidTranslations.includes(englishWord)) {
                 const newWord = {
                     id: Date.now(),
-                    english: englishWord,
+                    english: englishWord.toLowerCase(),
                     japanese: japaneseWord,
                     needsStudy: true
                 };
@@ -939,6 +949,7 @@
                         <div class="word-item">
                             <div class="word-actions">
                                 <button class="btn-small edit" onclick="editWord(${word.id})">編集</button>
+                                <button class="btn-small detail" onclick="searchWordDetail('${word.english}')">詳細</button>
                                 <button class="btn-small delete" onclick="deleteWord(${word.id})">削除</button>
                             </div>
                             <div style="display: flex; align-items: center; gap: 10px;">
@@ -978,7 +989,7 @@
 
             const wordIndex = words.findIndex(word => word.id === id);
             if (wordIndex !== -1) {
-                words[wordIndex].english = newEnglish;
+                words[wordIndex].english = newEnglish.toLowerCase();
                 words[wordIndex].japanese = newJapanese;
                 localStorage.setItem('vocabulary-words', JSON.stringify(words));
                 editingWordId = null;
@@ -1278,7 +1289,7 @@
                         if (parts.length >= 2 && parts[0].trim() && parts[1].trim()) {
                             importedWords.push({
                                 id: Date.now() + index,
-                                english: parts[0].trim(),
+                                english: parts[0].trim().toLowerCase(),
                                 japanese: parts[1].trim(),
                                 needsStudy: true
                             });
@@ -1523,6 +1534,14 @@
                 scheduleNextWordReverse();
             }
         });
+
+        function searchWordDetail(englishWord) {
+            // Weblio英和辞典で検索
+            const weblioUrl = `https://ejje.weblio.jp/content/${encodeURIComponent(englishWord)}`;
+
+            // 新しいタブで開く
+            window.open(weblioUrl, '_blank', 'noopener,noreferrer');
+        }
     </script>
 </body>
 </html>

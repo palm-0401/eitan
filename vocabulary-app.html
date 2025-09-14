@@ -188,7 +188,7 @@
         }
 
         .word-list {
-            max-height: 400px;
+            max-height: 520px;
             overflow-y: auto;
         }
 
@@ -438,6 +438,9 @@
             <div id="reading-screen" class="screen">
                 <button class="home-btn" onclick="showScreen('menu-screen')">🏠</button>
                 <h2>自動読み上げ学習</h2>
+                <div style="text-align: center; margin-bottom: 20px; padding: 10px; background: #f0f8ff; border-radius: 4px; font-size: 0.9em; color: #666666;">
+                    📱 学習中は画面が自動でオフになりません
+                </div>
 
                 <div class="current-word" id="current-word-display">
                     <div class="english">単語を選択してください</div>
@@ -485,6 +488,9 @@
             <div id="reading-reverse-screen" class="screen">
                 <button class="home-btn" onclick="showScreen('menu-screen')">🏠</button>
                 <h2>自動読み上げ学習（日本語→英語）</h2>
+                <div style="text-align: center; margin-bottom: 20px; padding: 10px; background: #f0f8ff; border-radius: 4px; font-size: 0.9em; color: #666666;">
+                    📱 学習中は画面が自動でオフになりません
+                </div>
 
                 <div class="current-word" id="current-word-display-reverse">
                     <div class="japanese">単語を選択してください</div>
@@ -574,8 +580,16 @@
         let shuffledWordsReverse = [];
         let shuffleIndex = 0;
         let shuffleIndexReverse = 0;
+        let wakeLock = null;
+        let wakeLockReverse = null;
 
         function showScreen(screenId) {
+            // 画面切替時にWake Lockを解放
+            if (screenId !== 'reading-screen' && screenId !== 'reading-reverse-screen') {
+                releaseWakeLock();
+                releaseWakeLockReverse();
+            }
+
             document.querySelectorAll('.screen').forEach(screen => {
                 screen.classList.remove('active');
             });
@@ -1058,13 +1072,35 @@
             }
         }
 
-        function startReading() {
+        async function requestWakeLock() {
+            try {
+                if ('wakeLock' in navigator) {
+                    wakeLock = await navigator.wakeLock.request('screen');
+                    console.log('画面ロックを取得しました');
+                } else {
+                    console.log('このブラウザは Wake Lock API をサポートしていません');
+                }
+            } catch (err) {
+                console.error('画面ロックの取得に失敗しました:', err);
+            }
+        }
+
+        function releaseWakeLock() {
+            if (wakeLock !== null) {
+                wakeLock.release();
+                wakeLock = null;
+                console.log('画面ロックを解放しました');
+            }
+        }
+
+        async function startReading() {
             if (words.length === 0) return;
 
             isReading = true;
             document.getElementById('start-reading-btn').style.display = 'none';
             document.getElementById('pause-reading-btn').style.display = 'inline-block';
 
+            await requestWakeLock();
             readCurrentWord();
             scheduleNextWord();
         }
@@ -1091,6 +1127,7 @@
             document.getElementById('start-reading-btn').style.display = 'inline-block';
             document.getElementById('pause-reading-btn').style.display = 'none';
             speechSynthesis.cancel();
+            releaseWakeLock();
         }
 
         function stopReading() {
@@ -1101,6 +1138,7 @@
             speechSynthesis.cancel();
             currentWordIndex = 0;
             displayCurrentWord();
+            releaseWakeLock();
         }
 
         function setSleepTimer(minutes) {
@@ -1117,6 +1155,7 @@
                 }
                 alert(`スリープタイマーが作動し、学習を停止しました。`);
                 cancelSleepTimer();
+                releaseWakeLock();
             }, minutes * 60 * 1000);
 
             sleepTimerInterval = setInterval(() => {
@@ -1338,13 +1377,35 @@
             }, japaneseToEnglishInterval);
         }
 
-        function startReadingReverse() {
+        async function requestWakeLockReverse() {
+            try {
+                if ('wakeLock' in navigator) {
+                    wakeLockReverse = await navigator.wakeLock.request('screen');
+                    console.log('画面ロックを取得しました（リバースモード）');
+                } else {
+                    console.log('このブラウザは Wake Lock API をサポートしていません');
+                }
+            } catch (err) {
+                console.error('画面ロックの取得に失敗しました:', err);
+            }
+        }
+
+        function releaseWakeLockReverse() {
+            if (wakeLockReverse !== null) {
+                wakeLockReverse.release();
+                wakeLockReverse = null;
+                console.log('画面ロックを解放しました（リバースモード）');
+            }
+        }
+
+        async function startReadingReverse() {
             if (words.length === 0) return;
 
             isReadingReverse = true;
             document.getElementById('start-reading-reverse-btn').style.display = 'none';
             document.getElementById('pause-reading-reverse-btn').style.display = 'inline-block';
 
+            await requestWakeLockReverse();
             readCurrentWordReverse();
             scheduleNextWordReverse();
         }
@@ -1371,6 +1432,7 @@
             document.getElementById('start-reading-reverse-btn').style.display = 'inline-block';
             document.getElementById('pause-reading-reverse-btn').style.display = 'none';
             speechSynthesis.cancel();
+            releaseWakeLockReverse();
         }
 
         function stopReadingReverse() {
@@ -1381,6 +1443,7 @@
             speechSynthesis.cancel();
             currentWordIndexReverse = 0;
             displayCurrentWordReverse();
+            releaseWakeLockReverse();
         }
 
         function nextWordReverse() {
@@ -1412,6 +1475,7 @@
                 }
                 alert(`スリープタイマーが作動し、学習を停止しました。`);
                 cancelSleepTimerReverse();
+                releaseWakeLockReverse();
             }, minutes * 60 * 1000);
 
             sleepTimerIntervalReverse = setInterval(() => {

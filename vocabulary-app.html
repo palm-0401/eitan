@@ -13,27 +13,75 @@
 
         body {
             font-family: 'Hiragino Kaku Gothic Pro', 'ヒラギノ角ゴ Pro', 'Yu Gothic Medium', '游ゴシック Medium', 'Yu Gothic', '游ゴシック', 'Meiryo', 'メイリオ', 'Verdana', 'Arial', sans-serif;
-            background: #ffffff;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
             min-height: 100vh;
             padding: 20px;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background:
+                radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(120, 199, 255, 0.3) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: -1;
         }
 
         .container {
             max-width: 800px;
             margin: 0 auto;
-            background: #ffffff;
-            border-radius: 4px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            border: 2px solid #333333;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            box-shadow:
+                0 8px 32px rgba(31, 38, 135, 0.37),
+                inset 0 1px 0 rgba(255, 255, 255, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.18);
             overflow: hidden;
+            position: relative;
+        }
+
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.8), transparent);
         }
 
         .header {
-            background: #dc143c;
+            background: linear-gradient(135deg, rgba(120, 119, 198, 0.8), rgba(255, 119, 198, 0.8));
+            backdrop-filter: blur(10px);
             color: #ffffff;
             padding: 30px;
             text-align: center;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.1) 50%, transparent 70%);
+            animation: shimmer 3s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
         }
 
         .header h1 {
@@ -66,29 +114,49 @@
         }
 
         .menu-btn {
-            background: linear-gradient(135deg, #f0f0f0 0%, #d0d0d0 100%);
-            color: #333333;
-            border: none;
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(10px);
+            color: #4a5568;
+            border: 1px solid rgba(255, 255, 255, 0.3);
             padding: 20px;
-            border-radius: 4px;
+            border-radius: 15px;
             font-size: 1.2em;
             cursor: pointer;
             transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .menu-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transition: left 0.5s;
         }
 
         .menu-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            background: linear-gradient(135deg, #e0e0e0 0%, #c0c0c0 100%);
+            box-shadow: 0 8px 25px rgba(31, 38, 135, 0.37);
+            background: rgba(255, 255, 255, 0.4);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+
+        .menu-btn:hover::before {
+            left: 100%;
         }
 
         .home-btn {
             position: fixed;
             top: 20px;
             right: 20px;
-            background: #ffffff;
-            color: #333333;
-            border: 2px solid #333333;
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(10px);
+            color: #4a5568;
+            border: 1px solid rgba(255, 255, 255, 0.3);
             padding: 8px;
             border-radius: 50%;
             cursor: pointer;
@@ -99,12 +167,14 @@
             align-items: center;
             justify-content: center;
             z-index: 1000;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 15px rgba(31, 38, 135, 0.37);
+            transition: all 0.3s ease;
         }
 
         .home-btn:hover {
-            background: #333333;
-            color: #ffffff;
+            background: rgba(255, 255, 255, 0.4);
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(31, 38, 135, 0.5);
         }
 
         .form-group {
@@ -115,43 +185,62 @@
             display: block;
             margin-bottom: 5px;
             font-weight: bold;
-            color: #333333;
+            color: #4a5568;
+            text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
         }
 
         .form-group input {
             width: 100%;
             padding: 12px;
-            border: 2px solid #333333;
-            border-radius: 4px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
             font-size: 1em;
-            background: #ffffff;
-            color: #333333;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            color: #4a5568;
         }
 
         .form-group input:focus {
-            border-color: #dc143c;
+            border-color: rgba(120, 119, 198, 0.6);
             outline: none;
-            box-shadow: 0 0 5px rgba(220, 20, 60, 0.3);
+            box-shadow: 0 0 15px rgba(120, 119, 198, 0.3);
+            background: rgba(255, 255, 255, 0.3);
         }
 
         .btn {
-            background: #dc143c;
+            background: linear-gradient(135deg, rgba(120, 119, 198, 0.8), rgba(255, 119, 198, 0.8));
             color: #ffffff;
-            border: 2px solid #dc143c;
+            border: 1px solid rgba(255, 255, 255, 0.3);
             padding: 12px 30px;
-            border-radius: 4px;
+            border-radius: 25px;
             cursor: pointer;
             font-size: 1em;
             margin-right: 10px;
             margin-bottom: 10px;
             transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transition: left 0.5s;
         }
 
         .btn:hover {
-            background: #b01030;
-            border-color: #b01030;
-            transform: translateY(-1px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(31, 38, 135, 0.37);
+        }
+
+        .btn:hover::before {
+            left: 100%;
         }
 
         .btn-danger {
@@ -193,26 +282,37 @@
         }
 
         .word-item {
-            background: #ffffff;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
             margin-bottom: 2px;
             padding: 15px 80px 15px 15px;
-            border-left: 4px solid #dc143c;
-            border-bottom: 1px solid #e0e0e0;
+            border-left: 4px solid rgba(120, 119, 198, 0.8);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
             position: relative;
             width: 100%;
             box-sizing: border-box;
+            border-radius: 0 10px 10px 0;
+            transition: all 0.3s ease;
+        }
+
+        .word-item:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateX(5px);
+            box-shadow: 0 4px 15px rgba(31, 38, 135, 0.2);
         }
 
         .word-item .english {
             font-size: 1.3em;
             font-weight: bold;
-            color: #333333;
+            color: #4a5568;
             margin-bottom: 5px;
+            text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
         }
 
         .word-item .japanese {
-            color: #666666;
+            color: #6b7280;
             font-size: 1.1em;
+            text-shadow: 0 1px 2px rgba(255, 255, 255, 0.6);
         }
 
         .word-actions {
@@ -225,11 +325,12 @@
         }
 
         .btn-small {
-            background: #333333;
-            color: #ffffff;
-            border: 1px solid #333333;
+            background: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(5px);
+            color: #4a5568;
+            border: 1px solid rgba(255, 255, 255, 0.4);
             padding: 3px 8px;
-            border-radius: 3px;
+            border-radius: 8px;
             cursor: pointer;
             font-size: 0.7em;
             transition: all 0.2s ease;
@@ -238,9 +339,9 @@
         }
 
         .btn-small:hover {
-            background: #555555;
-            border-color: #555555;
+            background: rgba(255, 255, 255, 0.5);
             transform: scale(1.05);
+            box-shadow: 0 2px 8px rgba(31, 38, 135, 0.3);
         }
 
         .btn-small.edit {
@@ -308,25 +409,48 @@
         }
 
         .current-word {
-            background: #ffffff;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(15px);
             padding: 30px;
-            border-radius: 4px;
+            border-radius: 20px;
             text-align: center;
             margin: 20px 0;
-            border: 2px solid #dc143c;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .current-word::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, rgba(120, 119, 198, 0.3), rgba(255, 119, 198, 0.3), rgba(120, 199, 255, 0.3));
+            border-radius: 20px;
+            z-index: -1;
+            animation: rotate 3s linear infinite;
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
         .current-word .english {
             font-size: 2em;
             font-weight: bold;
-            color: #333333;
+            color: #4a5568;
             margin-bottom: 10px;
+            text-shadow: 0 2px 4px rgba(255, 255, 255, 0.8);
         }
 
         .current-word .japanese {
             font-size: 1.5em;
-            color: #666666;
+            color: #6b7280;
+            text-shadow: 0 1px 3px rgba(255, 255, 255, 0.6);
         }
 
         .speed-control {
@@ -344,8 +468,9 @@
 
         .empty-state {
             text-align: center;
-            color: #666666;
+            color: #6b7280;
             padding: 50px;
+            text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
         }
     </style>
 </head>
@@ -376,8 +501,8 @@
                         💾 ５．読み込み・出力機能
                     </button>
                 </div>
-                <div style="margin-top: 30px; text-align: center; color: #666666;">
-                    登録単語数: <span id="word-count">0</span>語
+                <div style="margin-top: 30px; text-align: center; color: #6b7280; text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);">
+                    登録単語数: <span id="word-count" style="color: #4a5568; font-weight: bold;">0</span>語
                 </div>
             </div>
 
@@ -385,8 +510,8 @@
             <div id="register-screen" class="screen">
                 <button class="home-btn" onclick="showScreen('menu-screen')">🏠</button>
                 <h2>英単語を登録</h2>
-                <div style="margin-bottom: 30px; padding: 20px; background: #ffffff; border-radius: 4px; border: 2px solid #333333;">
-                    <h3 style="color: #333333; margin-bottom: 15px; text-align: center;">登録方法を選択</h3>
+                <div style="margin-bottom: 30px; padding: 20px; background: rgba(255, 255, 255, 0.2); backdrop-filter: blur(10px); border-radius: 15px; border: 1px solid rgba(255, 255, 255, 0.3);">
+                    <h3 style="color: #4a5568; margin-bottom: 15px; text-align: center; text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);">登録方法を選択</h3>
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
                         <label style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
                             <input type="radio" name="input-mode" value="english" checked onchange="switchInputMode()">
@@ -407,7 +532,7 @@
                             <input type="text" id="english-input" placeholder="例: apple">
                         </div>
                         <div class="form-group">
-                            <label for="japanese-auto">日本語訳 <span style="font-size: 0.9em; color: #dc143c;">(自動取得)</span></label>
+                            <label for="japanese-auto">日本語訳 <span style="font-size: 0.9em; color: rgba(120, 119, 198, 0.8);">(自動取得)</span></label>
                             <input type="text" id="japanese-auto" placeholder="英単語を入力すると自動で取得されます">
                         </div>
                     </div>
@@ -419,7 +544,7 @@
                             <input type="text" id="japanese-input" placeholder="例: りんご">
                         </div>
                         <div class="form-group">
-                            <label for="english-auto">英単語 <span style="font-size: 0.9em; color: #dc143c;">(自動取得)</span></label>
+                            <label for="english-auto">英単語 <span style="font-size: 0.9em; color: rgba(120, 119, 198, 0.8);">(自動取得)</span></label>
                             <input type="text" id="english-auto" placeholder="日本語を入力すると自動で取得されます">
                         </div>
                     </div>
@@ -442,16 +567,13 @@
                         「英単語登録」から単語を追加してください。
                     </div>
                 </div>
-                <div style="margin-top: 20px; text-align: center;">
-                    <button class="btn btn-danger" onclick="clearAllWords()">全単語削除</button>
-                </div>
             </div>
 
             <!-- 読み上げ学習画面 -->
             <div id="reading-screen" class="screen">
                 <button class="home-btn" onclick="showScreen('menu-screen')">🏠</button>
                 <h2>自動読み上げ学習</h2>
-                <div style="text-align: center; margin-bottom: 20px; padding: 10px; background: #f0f8ff; border-radius: 4px; font-size: 0.9em; color: #666666;">
+                <div style="text-align: center; margin-bottom: 20px; padding: 10px; background: rgba(255, 255, 255, 0.2); backdrop-filter: blur(10px); border-radius: 10px; font-size: 0.9em; color: #6b7280; text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);">
                     📱 学習中は画面が自動でオフになりません
                 </div>
 
@@ -475,11 +597,11 @@
                 </div>
 
                 <div class="sleep-timer-controls" style="text-align: center; margin: 20px 0;">
-                    <h3 style="color: #333333; margin-bottom: 15px;">💪 スリープタイマー</h3>
+                    <h3 style="color: #4a5568; margin-bottom: 15px; text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);">💪 スリープタイマー</h3>
                     <button class="btn-small" onclick="setSleepTimer(30)">┃ 30分</button>
                     <button class="btn-small" onclick="setSleepTimer(60)">┃ 1時間</button>
                     <button class="btn-small" id="cancel-timer-btn" onclick="cancelSleepTimer()" style="display: none;">タイマー解除</button>
-                    <div id="timer-display" style="margin-top: 10px; color: #dc143c; font-weight: bold;"></div>
+                    <div id="timer-display" style="margin-top: 10px; color: rgba(120, 119, 198, 0.9); font-weight: bold; text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);"></div>
                 </div>
 
                 <div class="speed-control">
@@ -501,7 +623,7 @@
             <div id="reading-reverse-screen" class="screen">
                 <button class="home-btn" onclick="showScreen('menu-screen')">🏠</button>
                 <h2>自動読み上げ学習（日本語→英語）</h2>
-                <div style="text-align: center; margin-bottom: 20px; padding: 10px; background: #f0f8ff; border-radius: 4px; font-size: 0.9em; color: #666666;">
+                <div style="text-align: center; margin-bottom: 20px; padding: 10px; background: rgba(255, 255, 255, 0.2); backdrop-filter: blur(10px); border-radius: 10px; font-size: 0.9em; color: #6b7280; text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);">
                     📱 学習中は画面が自動でオフになりません
                 </div>
 
@@ -529,7 +651,7 @@
                     <button class="btn-small" onclick="setSleepTimerReverse(30)">⏱ 30分</button>
                     <button class="btn-small" onclick="setSleepTimerReverse(60)">⏱ 1時間</button>
                     <button class="btn-small" id="cancel-timer-reverse-btn" onclick="cancelSleepTimerReverse()" style="display: none;">タイマー解除</button>
-                    <div id="timer-display-reverse" style="margin-top: 10px; color: #dc143c; font-weight: bold;"></div>
+                    <div id="timer-display-reverse" style="margin-top: 10px; color: rgba(120, 119, 198, 0.9); font-weight: bold; text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);"></div>
                 </div>
 
                 <div class="speed-control">
@@ -695,76 +817,147 @@
         }
 
         async function getReverseTranslation(japaneseWord) {
-            const reverseTranslations = {
+            const aiReverseTranslations = {
                 'りんご': 'apple',
+                'リンゴ': 'apple',
                 '本': 'book',
+                '書籍': 'book',
                 'コンピュータ': 'computer',
+                'パソコン': 'computer',
                 '家': 'house',
+                '住宅': 'house',
+                '建物': 'house, building',
                 '車': 'car',
+                '自動車': 'car',
                 '水': 'water',
                 '食べ物': 'food',
+                '食事': 'food, meal',
+                '食料': 'food',
                 '犬': 'dog',
                 '猫': 'cat',
                 '電話': 'phone',
+                'スマートフォン': 'phone, smartphone',
                 'お金': 'money',
+                '資金': 'money, funds',
+                '現金': 'money, cash',
                 '時間': 'time',
+                '時刻': 'time',
                 '人々': 'people',
+                '人達': 'people',
                 '良い': 'good',
+                '優秀な': 'good, excellent',
+                '上手な': 'good, skillful',
                 '悪い': 'bad',
+                'ひどい': 'bad, terrible',
                 '大きい': 'big',
+                '巨大な': 'big, huge',
                 '小さい': 'small',
+                '少ない': 'small, few',
                 '新しい': 'new',
+                '最新の': 'new, latest',
                 '古い': 'old',
+                '年老いた': 'old, aged',
                 '行く': 'go',
+                '出発する': 'go, depart',
                 '来る': 'come',
+                '到着する': 'come, arrive',
                 '見る': 'see',
+                '会う': 'see, meet',
+                '理解する': 'see, understand',
                 '聞く': 'hear',
+                '聞こえる': 'hear',
                 '食べる': 'eat',
+                '食事する': 'eat, dine',
                 '飲む': 'drink',
+                '飲み物': 'drink, beverage',
                 '走る': 'run',
+                '経営する': 'run, manage',
+                '作動する': 'run, operate',
                 '歩く': 'walk',
+                '散歩する': 'walk',
                 '読む': 'read',
+                '読書する': 'read',
                 '書く': 'write',
+                '執筆する': 'write',
                 '愛する': 'love',
+                '大好きである': 'love',
                 '好き': 'like',
+                '気に入る': 'like',
                 '欲しい': 'want',
+                'したい': 'want',
                 '必要': 'need',
+                '必要とする': 'need',
                 '幸せ': 'happy',
+                '嬉しい': 'happy',
+                '楽しい': 'happy, fun',
                 '悲しい': 'sad',
+                '残念な': 'sad, regrettable',
                 '美しい': 'beautiful',
+                '素晴らしい': 'beautiful, wonderful',
                 '友達': 'friend',
+                '友人': 'friend',
                 '家族': 'family',
+                '家庭': 'family',
                 '仕事': 'work',
+                '働く': 'work',
+                '作業': 'work',
                 '学校': 'school',
+                '教育機関': 'school, educational institution',
                 '勉強する': 'study',
+                '学習する': 'study, learn',
+                '研究': 'study, research',
                 '学ぶ': 'learn',
+                '習得する': 'learn, acquire',
                 '教える': 'teach',
+                '指導する': 'teach, instruct',
                 '助ける': 'help',
+                '手伝う': 'help',
+                '支援': 'help, support',
                 'ありがとう': 'thank',
+                '感謝する': 'thank',
                 'こんにちは': 'hello',
+                '挨拶': 'hello, greeting',
                 'さようなら': 'goodbye',
+                '別れの挨拶': 'goodbye',
                 'はい': 'yes',
+                'そうです': 'yes',
                 'いいえ': 'no',
+                '違います': 'no',
                 'お願いします': 'please',
+                'どうぞ': 'please',
                 'すみません': 'sorry',
+                '申し訳ありません': 'sorry',
                 '失礼します': 'excuse',
                 '理解する': 'understand',
+                '分かる': 'understand',
                 '知る': 'know',
+                '知っている': 'know',
                 '思う': 'think',
+                '考える': 'think',
                 '感じる': 'feel',
+                '触る': 'feel, touch',
                 '世界': 'world',
+                '地球': 'world, earth',
                 '国': 'country',
+                '国家': 'country',
                 '都市': 'city',
+                '市': 'city',
                 'オフィス': 'office',
+                '事務所': 'office',
                 '店': 'shop',
+                '買い物する': 'shop',
                 'レストラン': 'restaurant',
+                '飲食店': 'restaurant',
                 '病院': 'hospital',
+                '医療機関': 'hospital, medical facility',
                 '駅': 'station',
-                '公園': 'park'
+                '放送局': 'station',
+                '公園': 'park',
+                '駐車する': 'park'
             };
 
-            if (reverseTranslations[japaneseWord]) {
-                return reverseTranslations[japaneseWord];
+            if (aiReverseTranslations[japaneseWord]) {
+                return aiReverseTranslations[japaneseWord];
             }
 
             try {
@@ -786,78 +979,1311 @@
         }
 
         async function getTranslation(word) {
-            const commonTranslations = {
-                'apple': 'りんご',
-                'book': '本',
-                'computer': 'コンピュータ',
-                'house': '家',
-                'car': '車',
+            const aiTranslations = {
+                'apple': 'りんご、リンゴ',
+                'book': '本、書籍',
+                'computer': 'コンピュータ、パソコン',
+                'house': '家、住宅、建物',
+                'car': '車、自動車',
                 'water': '水',
-                'food': '食べ物',
+                'food': '食べ物、食事、食料',
                 'dog': '犬',
                 'cat': '猫',
-                'phone': '電話',
-                'money': 'お金',
-                'time': '時間',
-                'people': '人々',
-                'good': '良い',
-                'bad': '悪い',
-                'big': '大きい',
-                'small': '小さい',
-                'new': '新しい',
-                'old': '古い',
-                'go': '行く',
-                'come': '来る',
-                'see': '見る',
-                'hear': '聞く',
-                'eat': '食べる',
-                'drink': '飲む',
-                'run': '走る',
-                'walk': '歩く',
-                'read': '読む',
-                'write': '書く',
-                'love': '愛する',
-                'like': '好き',
-                'want': '欲しい',
-                'need': '必要',
-                'happy': '幸せ',
-                'sad': '悲しい',
-                'beautiful': '美しい',
-                'friend': '友達',
-                'family': '家族',
-                'work': '仕事',
-                'school': '学校',
-                'study': '勉強する',
-                'learn': '学ぶ',
-                'teach': '教える',
-                'help': '助ける',
-                'thank': 'ありがとう',
-                'hello': 'こんにちは',
-                'goodbye': 'さようなら',
-                'yes': 'はい',
-                'no': 'いいえ',
-                'please': 'お願いします',
-                'sorry': 'すみません',
-                'excuse': '失礼します',
-                'understand': '理解する',
-                'know': '知る',
-                'think': '思う',
-                'feel': '感じる',
-                'world': '世界',
-                'country': '国',
-                'city': '都市',
-                'home': '家',
-                'office': 'オフィス',
-                'shop': '店',
-                'restaurant': 'レストラン',
-                'hospital': '病院',
-                'station': '駅',
-                'park': '公園'
+                'phone': '電話、スマートフォン',
+                'money': 'お金、資金、現金',
+                'time': '時間、時刻',
+                'people': '人々、人達',
+                'good': '良い、優秀な、上手な',
+                'bad': '悪い、ひどい',
+                'big': '大きい、巨大な',
+                'small': '小さい、少ない',
+                'new': '新しい、最新の',
+                'old': '古い、年老いた',
+                'go': '行く、出発する',
+                'come': '来る、到着する',
+                'see': '見る、会う、理解する',
+                'hear': '聞く、聞こえる',
+                'eat': '食べる、食事する',
+                'drink': '飲む、飲み物',
+                'run': '走る、経営する、作動する',
+                'walk': '歩く、散歩する',
+                'read': '読む、読書する',
+                'write': '書く、執筆する',
+                'love': '愛する、大好きである',
+                'like': '好き、気に入る',
+                'want': '欲しい、したい',
+                'need': '必要、必要とする',
+                'happy': '幸せ、嬉しい、楽しい',
+                'sad': '悲しい、残念な',
+                'beautiful': '美しい、素晴らしい',
+                'friend': '友達、友人',
+                'family': '家族、家庭',
+                'work': '仕事、働く、作業',
+                'school': '学校、教育機関',
+                'study': '勉強する、学習する、研究',
+                'learn': '学ぶ、習得する',
+                'teach': '教える、指導する',
+                'help': '助ける、手伝う、支援',
+                'thank': 'ありがとう、感謝する',
+                'hello': 'こんにちは、挨拶',
+                'goodbye': 'さようなら、別れの挨拶',
+                'yes': 'はい、そうです',
+                'no': 'いいえ、違います',
+                'please': 'お願いします、どうぞ',
+                'sorry': 'すみません、申し訳ありません',
+                'excuse': '失礼します、すみません',
+                'understand': '理解する、分かる',
+                'know': '知る、知っている',
+                'think': '思う、考える',
+                'feel': '感じる、触る',
+                'world': '世界、地球',
+                'country': '国、国家',
+                'city': '都市、市',
+                'home': '家、故郷、ホーム',
+                'office': 'オフィス、事務所',
+                'shop': '店、買い物する',
+                'restaurant': 'レストラン、飲食店',
+                'hospital': '病院、医療機関',
+                'station': '駅、放送局',
+                'park': '公園、駐車する',
+                'important': '重要な、大切な',
+                'interesting': '面白い、興味深い',
+                'difficult': '難しい、困難な',
+                'easy': '簡単な、楽な',
+                'fast': '速い、早い、断食',
+                'slow': '遅い、ゆっくりした',
+                'strong': '強い、頑丈な',
+                'weak': '弱い、薄い',
+                'long': '長い、長時間の',
+                'short': '短い、背が低い',
+                'high': '高い、高度な',
+                'low': '低い、少ない',
+                'hot': '暑い、熱い',
+                'cold': '寒い、冷たい',
+                'warm': '暖かい、温かい',
+                'cool': '涼しい、かっこいい',
+                'open': '開く、開いている、開放的な',
+                'close': '閉じる、近い',
+                'start': '始める、開始',
+                'stop': '止める、停止',
+                'finish': '終える、完了する',
+                'continue': '続ける、継続する',
+                'change': '変える、変化、お釣り',
+                'keep': '保つ、維持する',
+                'make': '作る、させる',
+                'take': '取る、連れて行く',
+                'give': '与える、あげる',
+                'get': '得る、もらう、到着する',
+                'put': '置く、入れる',
+                'find': '見つける、発見する',
+                'look': '見る、探す、様子',
+                'turn': '回る、曲がる、順番',
+                'move': '動く、移動する、引っ越し',
+                'play': '遊ぶ、演奏する、プレイ',
+                'try': '試す、挑戦する',
+                'use': '使う、利用する',
+                'buy': '買う、購入する',
+                'sell': '売る、販売する',
+                'pay': '払う、支払い',
+                'show': '見せる、示す、ショー',
+                'tell': '言う、教える',
+                'speak': '話す、しゃべる',
+                'talk': '話す、話し合う',
+                'listen': '聞く、聴く',
+                'ask': '尋ねる、頼む',
+                'answer': '答える、回答',
+                'call': '呼ぶ、電話する',
+                'meet': '会う、出会う',
+                'visit': '訪問する、見学する',
+                'live': '住む、生きる、生放送',
+                'stay': '滞在する、とどまる',
+                'leave': '去る、残す、休暇',
+                'return': '戻る、返す',
+                'travel': '旅行する、移動する',
+                'drive': '運転する、ドライブ',
+                'ride': '乗る、乗り物',
+                'fly': '飛ぶ、飛行機で行く',
+                'swim': '泳ぐ、水泳',
+                'sleep': '眠る、睡眠',
+                'wake': '目覚める、起こす',
+                'rest': '休む、休息',
+                'relax': 'リラックスする、くつろぐ',
+                'enjoy': '楽しむ、享受する',
+                'hope': '希望する、望む',
+                'wish': '願う、希望',
+                'dream': '夢、夢見る',
+                'remember': '覚えている、思い出す',
+                'forget': '忘れる、忘れ物',
+                'decide': '決める、決定する',
+                'choose': '選ぶ、選択する',
+                'prepare': '準備する、用意する',
+                'plan': '計画する、予定',
+                'organize': '整理する、組織する',
+                'create': '作る、創造する',
+                'build': '建てる、構築する',
+                'design': 'デザインする、設計する',
+                'develop': '発展させる、開発する',
+                'improve': '改善する、向上させる',
+                'increase': '増加する、増やす',
+                'decrease': '減少する、減らす',
+                'manage': '管理する、経営する',
+                'control': '制御する、管理する',
+                'handle': '扱う、処理する',
+                'solve': '解決する、解く',
+                'fix': '修理する、固定する',
+                'check': 'チェックする、確認する',
+                'test': 'テストする、試験',
+                'measure': '測る、測定する',
+                'count': '数える、カウント',
+                'compare': '比較する、比べる',
+                'connect': '接続する、つなぐ',
+                'join': '参加する、結合する',
+                'separate': '分ける、別れる',
+                'divide': '分ける、割る',
+                'share': '共有する、分ける',
+                'save': '保存する、節約する、救う',
+                'spend': '使う、過ごす',
+                'cost': '費用、コスト',
+                'price': '価格、値段',
+                'value': '価値、値',
+                'quality': '品質、質',
+                'service': 'サービス、奉仕',
+                'product': '製品、商品',
+                'market': '市場、マーケット',
+                'business': 'ビジネス、事業',
+                'company': '会社、企業',
+                'customer': '顧客、お客様',
+                'client': 'クライアント、依頼人',
+                'team': 'チーム、団体',
+                'group': 'グループ、集団',
+                'member': 'メンバー、会員',
+                'leader': 'リーダー、指導者',
+                'manager': 'マネージャー、管理者',
+                'boss': 'ボス、上司',
+                'employee': '従業員、社員',
+                'worker': '労働者、作業員',
+                'job': '仕事、職業',
+                'career': 'キャリア、経歴',
+                'project': 'プロジェクト、企画',
+                'task': 'タスク、課題',
+                'goal': 'ゴール、目標',
+                'target': 'ターゲット、目標',
+                'result': '結果、成果',
+                'success': '成功、成果',
+                'failure': '失敗、故障',
+                'mistake': '間違い、ミス',
+                'error': 'エラー、誤り',
+                'problem': '問題、困難',
+                'solution': '解決策、解答',
+                'method': '方法、手法',
+                'way': '方法、道、やり方',
+                'system': 'システム、制度',
+                'process': 'プロセス、過程',
+                'step': 'ステップ、段階',
+                'level': 'レベル、水準',
+                'stage': 'ステージ、段階',
+                'phase': 'フェーズ、段階',
+                'period': '期間、時代',
+                'moment': '瞬間、時',
+                'minute': '分、微細な',
+                'hour': '時間、1時間',
+                'day': '日、昼間',
+                'week': '週、週間',
+                'month': '月、1ヶ月',
+                'year': '年、1年間',
+                'today': '今日、現在',
+                'tomorrow': '明日、将来',
+                'yesterday': '昨日、過去',
+                'morning': '朝、午前',
+                'afternoon': '午後、昼下がり',
+                'evening': '夕方、夜',
+                'night': '夜、夜間',
+                'weekend': '週末、土日',
+                'holiday': '休日、祝日、休暇',
+                'vacation': '休暇、バケーション',
+                'birthday': '誕生日、生日',
+                'party': 'パーティー、政党',
+                'event': 'イベント、出来事',
+                'meeting': '会議、集会',
+                'conference': '会議、学会',
+                'presentation': 'プレゼンテーション、発表',
+                'speech': 'スピーチ、演説',
+                'discussion': '議論、話し合い',
+                'conversation': '会話、対話',
+                'communication': 'コミュニケーション、通信',
+                'message': 'メッセージ、伝言',
+                'email': 'メール、電子メール',
+                'letter': '手紙、文字',
+                'document': '文書、書類',
+                'report': 'レポート、報告書',
+                'paper': '紙、論文',
+                'article': '記事、物品',
+                'news': 'ニュース、知らせ',
+                'information': '情報、案内',
+                'data': 'データ、資料',
+                'fact': '事実、実際',
+                'truth': '真実、本当',
+                'story': '物語、話',
+                'history': '歴史、経歴',
+                'culture': '文化、教養',
+                'tradition': '伝統、慣習',
+                'custom': '習慣、慣例',
+                'habit': '習慣、癖',
+                'rule': 'ルール、規則',
+                'law': '法律、法則',
+                'right': '右、正しい、権利',
+                'left': '左、残った',
+                'front': '前、正面',
+                'back': '後ろ、背中',
+                'side': '側、横',
+                'top': '上、頂上',
+                'bottom': '下、底',
+                'center': '中心、センター',
+                'middle': '真ん中、中間',
+                'corner': '角、コーナー',
+                'edge': '端、縁',
+                'end': '終わり、端',
+                'beginning': '始まり、開始',
+                'inside': '内側、中',
+                'outside': '外側、外',
+                'around': '周り、約',
+                'between': '間、〜の間に',
+                'among': '〜の中で、〜の間で',
+                'across': '〜を横切って、向こう側',
+                'through': '〜を通って、〜によって',
+                'over': '〜の上に、終わって',
+                'under': '〜の下に、未満',
+                'above': '〜の上に、以上',
+                'below': '〜の下に、以下',
+                'near': '近い、〜の近く',
+                'far': '遠い、はるかに',
+                'close': '近い、閉じる',
+                'distance': '距離、間隔',
+                'space': '空間、スペース',
+                'place': '場所、置く',
+                'position': '位置、地位',
+                'location': '場所、位置',
+                'area': '地域、エリア、面積',
+                'region': '地域、地方',
+                'zone': 'ゾーン、地帯',
+                'section': 'セクション、部分',
+                'part': '部分、パート',
+                'piece': '一片、作品',
+                'whole': '全体、全部',
+                'complete': '完全な、完了する',
+                'total': '合計、全体の',
+                'full': '満杯の、完全な',
+                'empty': '空の、空にする',
+                'half': '半分、半',
+                'quarter': '4分の1、四半期',
+                'double': '2倍、倍にする',
+                'single': '単一の、独身の',
+                'multiple': '複数の、倍数',
+                'several': 'いくつかの、数個の',
+                'many': '多くの、たくさんの',
+                'few': '少ない、少数の',
+                'some': 'いくつかの、ある',
+                'all': '全て、すべての',
+                'each': '各々の、それぞれ',
+                'every': '全ての、毎',
+                'any': '何でも、どんな',
+                'none': '何も〜ない、皆無',
+                'other': '他の、その他',
+                'another': '別の、もう一つの',
+                'same': '同じ、同様の',
+                'different': '異なる、違う',
+                'similar': '似ている、類似の',
+                'equal': '等しい、平等な',
+                'special': '特別な、専門の',
+                'normal': '普通の、正常な',
+                'common': '共通の、一般的な',
+                'unusual': '珍しい、異常な',
+                'strange': '奇妙な、見知らぬ',
+                'funny': '面白い、おかしな',
+                'serious': '真剣な、深刻な',
+                'careful': '注意深い、慎重な',
+                'safe': '安全な、安全',
+                'dangerous': '危険な、危ない',
+                'possible': '可能な、ありうる',
+                'impossible': '不可能な、無理な',
+                'necessary': '必要な、必須の',
+                'sure': '確実な、確信して',
+                'certain': '確実な、ある',
+                'clear': '明確な、晴れた',
+                'simple': 'シンプルな、簡単な',
+                'complex': '複雑な、複合の',
+                'basic': '基本的な、基礎の',
+                'advanced': '高度な、進歩した',
+                'modern': '現代の、モダンな',
+                'traditional': '伝統的な、従来の',
+                'popular': '人気の、大衆的な',
+                'famous': '有名な、著名な',
+                'professional': 'プロの、専門的な',
+                'personal': '個人的な、私的な',
+                'private': '私的な、個人の',
+                'public': '公の、公共の',
+                'social': '社会的な、社交的な',
+                'political': '政治的な、政治の',
+                'economic': '経済的な、経済の',
+                'financial': '金融の、財政の',
+                'international': '国際的な、国際の',
+                'national': '国の、国民の',
+                'local': '地元の、現地の',
+                'global': '世界的な、地球の',
+                'natural': '自然の、生来の',
+                'human': '人間の、人的な',
+                'animal': '動物、動物の',
+                'plant': '植物、工場',
+                'tree': '木、樹木',
+                'flower': '花、開花する',
+                'grass': '草、芝生',
+                'mountain': '山、山脈',
+                'river': '川、河川',
+                'sea': '海、海洋',
+                'ocean': '海洋、大洋',
+                'lake': '湖、湖水',
+                'forest': '森、森林',
+                'field': '野原、分野、フィールド',
+                'garden': '庭、庭園',
+                'farm': '農場、農園',
+                'road': '道路、道',
+                'street': '通り、街路',
+                'bridge': '橋、架け橋',
+                'building': '建物、建築',
+                'tower': 'タワー、塔',
+                'church': '教会、聖堂',
+                'museum': '博物館、美術館',
+                'library': '図書館、ライブラリ',
+                'theater': '劇場、映画館',
+                'hotel': 'ホテル、宿泊施設',
+                'bank': '銀行、土手',
+                'post': '郵便、投稿する、ポスト',
+                'store': '店、保存する',
+                'market': '市場、マーケット',
+                'mall': 'ショッピングモール、商店街',
+                'factory': '工場、製造所',
+                'airport': '空港、飛行場',
+                'train': '電車、訓練する',
+                'bus': 'バス、公共交通',
+                'taxi': 'タクシー、タクシーで行く',
+                'truck': 'トラック、大型車',
+                'ship': '船、輸送する',
+                'plane': '飛行機、平面',
+                'bicycle': '自転車、バイク',
+                'motorcycle': 'オートバイ、バイク',
+                'engine': 'エンジン、機関',
+                'machine': '機械、マシン',
+                'tool': '道具、ツール',
+                'equipment': '設備、機器',
+                'device': '装置、デバイス',
+                'technology': '技術、テクノロジー',
+                'internet': 'インターネット、ネット',
+                'website': 'ウェブサイト、サイト',
+                'software': 'ソフトウェア、ソフト',
+                'application': 'アプリケーション、応用',
+                'program': 'プログラム、番組',
+                'system': 'システム、制度',
+                'network': 'ネットワーク、網',
+                'database': 'データベース、DB',
+                'file': 'ファイル、書類',
+                'folder': 'フォルダ、フォルダー',
+                'screen': 'スクリーン、画面',
+                'keyboard': 'キーボード、鍵盤',
+                'mouse': 'マウス、ネズミ',
+                'camera': 'カメラ、撮影機',
+                'video': 'ビデオ、映像',
+                'audio': 'オーディオ、音声',
+                'music': '音楽、ミュージック',
+                'song': '歌、楽曲',
+                'sound': '音、音響',
+                'voice': '声、音声',
+                'language': '言語、言葉',
+                'word': '単語、言葉',
+                'sentence': '文、文章',
+                'paragraph': '段落、パラグラフ',
+                'page': 'ページ、頁',
+                'chapter': '章、チャプター',
+                'section': 'セクション、部分',
+                'title': 'タイトル、題名',
+                'name': '名前、名称',
+                'address': '住所、アドレス',
+                'number': '数、番号',
+                'size': 'サイズ、大きさ',
+                'weight': '重さ、体重',
+                'height': '高さ、身長',
+                'length': '長さ、期間',
+                'width': '幅、横幅',
+                'depth': '深さ、奥行き',
+                'speed': 'スピード、速度',
+                'power': '力、電力、パワー',
+                'energy': 'エネルギー、活力',
+                'force': '力、強制する',
+                'pressure': '圧力、プレッシャー',
+                'temperature': '温度、体温',
+                'weather': '天気、天候',
+                'climate': '気候、風土',
+                'season': '季節、シーズン',
+                'spring': '春、ばね、泉',
+                'summer': '夏、夏季',
+                'autumn': '秋、秋季',
+                'winter': '冬、冬季',
+                'rain': '雨、降る',
+                'snow': '雪、雪が降る',
+                'wind': '風、巻く',
+                'cloud': '雲、クラウド',
+                'sun': '太陽、日',
+                'moon': '月、月光',
+                'star': '星、スター',
+                'sky': '空、天空',
+                'earth': '地球、土',
+                'ground': '地面、根拠',
+                'soil': '土壌、土',
+                'rock': '岩、石',
+                'stone': '石、ストーン',
+                'metal': '金属、メタル',
+                'gold': '金、ゴールド',
+                'silver': '銀、シルバー',
+                'iron': '鉄、アイロン',
+                'steel': '鋼、スチール',
+                'wood': '木、木材',
+                'paper': '紙、論文',
+                'plastic': 'プラスチック、プラ',
+                'glass': 'ガラス、グラス',
+                'oil': '油、石油、オイル',
+                'gas': 'ガス、気体',
+                'electricity': '電気、電力',
+                'light': '光、軽い、明かり',
+                'fire': '火、火事',
+                'smoke': '煙、喫煙する',
+                'air': '空気、空中',
+                'breath': '息、呼吸',
+                'wind': '風、巻く',
+                'ice': '氷、アイス',
+                'steam': '蒸気、スチーム',
+                'liquid': '液体、液状の',
+                'solid': '固体、固い',
+                'powder': '粉、パウダー',
+                'dust': 'ほこり、塵',
+                'dirt': '汚れ、土',
+                'clean': 'きれいな、掃除する',
+                'dirty': '汚い、汚れた',
+                'fresh': '新鮮な、さわやかな',
+                'dry': '乾いた、乾燥させる',
+                'wet': '濡れた、湿った',
+                'rough': '粗い、荒い',
+                'smooth': '滑らかな、スムーズな',
+                'sharp': '鋭い、シャープな',
+                'soft': '柔らかい、ソフトな',
+                'hard': '硬い、困難な',
+                'thick': '厚い、濃い',
+                'thin': '薄い、細い',
+                'heavy': '重い、激しい',
+                'light': '軽い、明るい、光',
+                'bright': '明るい、輝く',
+                'dark': '暗い、ダーク',
+                'color': '色、カラー',
+                'white': '白、白い',
+                'black': '黒、黒い',
+                'red': '赤、赤い',
+                'blue': '青、青い',
+                'green': '緑、緑の',
+                'yellow': '黄色、黄色い',
+                'orange': 'オレンジ、オレンジ色',
+                'purple': '紫、紫の',
+                'pink': 'ピンク、ピンクの',
+                'brown': '茶色、茶色い',
+                'gray': '灰色、グレー',
+                'pattern': 'パターン、模様',
+                'shape': '形、形状',
+                'circle': '円、丸',
+                'square': '正方形、広場',
+                'triangle': '三角形、三角',
+                'line': '線、行',
+                'point': '点、ポイント',
+                'angle': '角度、角',
+                'curve': '曲線、カーブ',
+                'surface': '表面、水面',
+                'border': '境界、ボーダー',
+                'frame': 'フレーム、枠',
+                'picture': '絵、写真',
+                'photo': '写真、フォト',
+                'image': '画像、イメージ',
+                'drawing': '絵、図面',
+                'painting': '絵画、ペンキ塗り',
+                'art': '芸術、アート',
+                'design': 'デザイン、設計',
+                'style': 'スタイル、様式',
+                'fashion': 'ファッション、流行',
+                'clothes': '服、衣類',
+                'shirt': 'シャツ、ワイシャツ',
+                'dress': 'ドレス、服を着る',
+                'suit': 'スーツ、適する',
+                'coat': 'コート、上着',
+                'jacket': 'ジャケット、上着',
+                'pants': 'ズボン、パンツ',
+                'shoes': '靴、シューズ',
+                'hat': '帽子、ハット',
+                'bag': 'バッグ、袋',
+                'watch': '時計、見る',
+                'ring': '指輪、リング、鳴る',
+                'glasses': 'メガネ、眼鏡',
+                'jewelry': '宝石、ジュエリー',
+                'makeup': '化粧、メイクアップ',
+                'hair': '髪、毛',
+                'face': '顔、直面する',
+                'eye': '目、眼',
+                'nose': '鼻、嗅ぐ',
+                'mouth': '口、口腔',
+                'tooth': '歯、歯科',
+                'ear': '耳、聴覚',
+                'hand': '手、渡す',
+                'finger': '指、フィンガー',
+                'arm': '腕、武器',
+                'leg': '脚、足',
+                'foot': '足、フィート',
+                'head': '頭、先頭',
+                'neck': '首、ネック',
+                'shoulder': '肩、ショルダー',
+                'chest': '胸、チェスト',
+                'back': '背中、後ろ',
+                'stomach': '胃、お腹',
+                'heart': '心臓、心',
+                'blood': '血、血液',
+                'bone': '骨、ボーン',
+                'skin': '肌、皮膚',
+                'muscle': '筋肉、マッスル',
+                'brain': '脳、頭脳',
+                'mind': '心、精神、気にする',
+                'memory': '記憶、メモリー',
+                'thought': '考え、思考',
+                'idea': 'アイデア、考え',
+                'opinion': '意見、見解',
+                'belief': '信念、信仰',
+                'feeling': '感情、気持ち',
+                'emotion': '感情、情動',
+                'mood': '気分、ムード',
+                'character': '性格、文字、キャラクター',
+                'personality': '性格、人格',
+                'behavior': '行動、振る舞い',
+                'attitude': '態度、姿勢',
+                'habit': '習慣、癖',
+                'skill': 'スキル、技能',
+                'ability': '能力、才能',
+                'talent': '才能、タレント',
+                'gift': 'ギフト、贈り物、才能',
+                'experience': '経験、体験',
+                'knowledge': '知識、知見',
+                'education': '教育、学歴',
+                'learning': '学習、学び',
+                'training': '訓練、トレーニング',
+                'practice': '練習、実践',
+                'exercise': '運動、エクササイズ',
+                'sport': 'スポーツ、運動',
+                'game': 'ゲーム、試合',
+                'match': '試合、マッチ、合う',
+                'competition': '競争、コンペティション',
+                'race': 'レース、競争、人種',
+                'win': '勝つ、勝利',
+                'lose': '負ける、失う',
+                'victory': '勝利、ビクトリー',
+                'defeat': '敗北、負かす',
+                'score': 'スコア、得点',
+                'point': 'ポイント、点',
+                'prize': '賞、賞品',
+                'award': '賞、授与する',
+                'gift': 'ギフト、贈り物',
+                'present': 'プレゼント、現在の、提示する',
+                'surprise': '驚き、サプライズ',
+                'party': 'パーティー、政党',
+                'celebration': '祝い、お祝い',
+                'festival': '祭り、フェスティバル',
+                'concert': 'コンサート、演奏会',
+                'performance': 'パフォーマンス、公演',
+                'show': 'ショー、見せる',
+                'movie': '映画、ムービー',
+                'film': '映画、フィルム',
+                'television': 'テレビ、テレビジョン',
+                'radio': 'ラジオ、無線',
+                'magazine': '雑誌、マガジン',
+                'newspaper': '新聞、新聞紙',
+                'novel': '小説、新しい',
+                'poem': '詩、ポエム',
+                'story': '物語、話',
+                'joke': '冗談、ジョーク',
+                'laugh': '笑う、笑い',
+                'smile': '笑顔、微笑む',
+                'cry': '泣く、叫ぶ',
+                'tear': '涙、破る',
+                'anger': '怒り、腹立ち',
+                'fear': '恐れ、恐怖',
+                'worry': '心配、悩み',
+                'stress': 'ストレス、圧迫',
+                'pain': '痛み、苦痛',
+                'hurt': '傷つける、痛い',
+                'sick': '病気の、気分が悪い',
+                'health': '健康、ヘルス',
+                'medicine': '薬、医学',
+                'doctor': '医者、博士',
+                'nurse': '看護師、看護する',
+                'patient': '患者、我慢強い',
+                'treatment': '治療、処置',
+                'cure': '治療、治す',
+                'recovery': '回復、復活',
+                'injury': '怪我、負傷',
+                'accident': '事故、偶然',
+                'emergency': '緊急事態、救急',
+                'safety': '安全、安全性',
+                'danger': '危険、危険性',
+                'risk': 'リスク、危険',
+                'protection': '保護、プロテクション',
+                'security': 'セキュリティ、安全保障',
+                'insurance': '保険、保障',
+                'law': '法律、法則',
+                'rule': 'ルール、規則',
+                'regulation': '規制、規則',
+                'policy': '政策、方針',
+                'government': '政府、統治',
+                'politics': '政治、政治学',
+                'election': '選挙、選出',
+                'vote': '投票、票',
+                'citizen': '市民、国民',
+                'society': '社会、協会',
+                'community': 'コミュニティ、共同体',
+                'organization': '組織、団体',
+                'institution': '機関、制度',
+                'foundation': '財団、基礎',
+                'charity': '慈善、チャリティ',
+                'volunteer': 'ボランティア、志願者',
+                'support': 'サポート、支援',
+                'assistance': '支援、援助',
+                'cooperation': '協力、協調',
+                'partnership': 'パートナーシップ、提携',
+                'relationship': '関係、関係性',
+                'connection': 'つながり、接続',
+                'contact': '連絡、接触',
+                'communication': 'コミュニケーション、通信',
+                'conversation': '会話、対話',
+                'discussion': '議論、話し合い',
+                'argument': '議論、口論',
+                'agreement': '合意、協定',
+                'disagreement': '不一致、意見の相違',
+                'conflict': '対立、紛争',
+                'peace': '平和、平穏',
+                'war': '戦争、戦い',
+                'battle': '戦い、バトル',
+                'fight': '戦う、喧嘩',
+                'struggle': '闘争、苦労',
+                'effort': '努力、取り組み',
+                'attempt': '試み、挑戦',
+                'challenge': '挑戦、チャレンジ',
+                'opportunity': '機会、チャンス',
+                'chance': 'チャンス、偶然',
+                'luck': '運、幸運',
+                'fortune': '運、財産',
+                'fate': '運命、宿命',
+                'destiny': '運命、宿命',
+                'future': '未来、将来',
+                'past': '過去、過ぎた',
+                'present': '現在、プレゼント',
+                'reality': '現実、リアリティ',
+                'dream': '夢、夢見る',
+                'imagination': '想像、想像力',
+                'creativity': '創造性、クリエイティビティ',
+                'inspiration': 'インスピレーション、霊感',
+                'motivation': 'モチベーション、動機',
+                'purpose': '目的、用途',
+                'meaning': '意味、意義',
+                'sense': '感覚、意味、センス',
+                'reason': '理由、理性',
+                'cause': '原因、引き起こす',
+                'effect': '効果、影響',
+                'result': '結果、成果',
+                'consequence': '結果、影響',
+                'impact': 'インパクト、影響',
+                'influence': '影響、影響力',
+                'power': '力、電力、権力',
+                'control': 'コントロール、制御',
+                'authority': '権威、当局',
+                'responsibility': '責任、義務',
+                'duty': '義務、職務',
+                'obligation': '義務、責務',
+                'commitment': '約束、コミットメント',
+                'promise': '約束、約束する',
+                'trust': '信頼、信用',
+                'faith': '信仰、信念',
+                'hope': '希望、期待',
+                'confidence': '自信、信頼',
+                'courage': '勇気、勇敢',
+                'bravery': '勇気、勇敢さ',
+                'strength': '強さ、力',
+                'weakness': '弱さ、弱点',
+                'advantage': '利点、有利',
+                'disadvantage': '不利、欠点',
+                'benefit': '利益、恩恵',
+                'profit': '利益、儲け',
+                'loss': '損失、負け',
+                'gain': '利得、得る',
+                'achievement': '達成、業績',
+                'accomplishment': '達成、成果',
+                'progress': '進歩、進展',
+                'development': '発展、開発',
+                'growth': '成長、伸び',
+                'improvement': '改善、向上',
+                'change': '変化、変更',
+                'difference': '違い、差',
+                'comparison': '比較、対比',
+                'contrast': '対比、対照',
+                'balance': 'バランス、均衡',
+                'harmony': '調和、ハーモニー',
+                'unity': '統一、団結',
+                'diversity': '多様性、多様',
+                'variety': '多様性、種類',
+                'choice': '選択、選択肢',
+                'option': 'オプション、選択肢',
+                'alternative': '代替、選択肢',
+                'preference': '好み、優先',
+                'priority': '優先、優先事項',
+                'importance': '重要性、重要',
+                'significance': '重要性、意義',
+                'value': '価値、値',
+                'worth': '価値、値する',
+                'merit': '価値、メリット',
+                'excellence': '優秀、卓越',
+                'perfection': '完璧、完全',
+                'ideal': '理想、理想的な',
+                'standard': '標準、基準',
+                'norm': '標準、規範',
+                'average': '平均、平均的な',
+                'typical': '典型的な、一般的な',
+                'usual': '普通の、いつもの',
+                'regular': '定期的な、普通の',
+                'frequent': '頻繁な、よくある',
+                'rare': '珍しい、まれな',
+                'unique': 'ユニークな、独特な',
+                'original': 'オリジナル、元の',
+                'copy': 'コピー、複製',
+                'duplicate': '複製、重複',
+                'version': 'バージョン、版',
+                'edition': '版、エディション',
+                'model': 'モデル、模型',
+                'example': '例、サンプル',
+                'sample': 'サンプル、見本',
+                'instance': '例、事例',
+                'case': 'ケース、場合',
+                'situation': '状況、情勢',
+                'condition': '状態、条件',
+                'circumstance': '状況、事情',
+                'environment': '環境、周囲',
+                'atmosphere': '雰囲気、大気',
+                'climate': '気候、風土',
+                'setting': '設定、環境',
+                'background': '背景、経歴',
+                'context': '文脈、状況',
+                'framework': '枠組み、フレームワーク',
+                'structure': '構造、仕組み',
+                'organization': '組織、整理',
+                'arrangement': '配置、取り決め',
+                'order': '順序、注文、命令',
+                'sequence': '順序、シーケンス',
+                'series': 'シリーズ、連続',
+                'chain': 'チェーン、連鎖',
+                'cycle': 'サイクル、周期',
+                'pattern': 'パターン、模様',
+                'trend': 'トレンド、傾向',
+                'direction': '方向、指示',
+                'path': '道、パス',
+                'route': 'ルート、経路',
+                'journey': '旅、旅行',
+                'trip': '旅行、つまずく',
+                'adventure': '冒険、アドベンチャー',
+                'exploration': '探検、探査',
+                'discovery': '発見、発見物',
+                'invention': '発明、発明品',
+                'creation': '創造、創作',
+                'innovation': '革新、イノベーション',
+                'revolution': '革命、回転',
+                'evolution': '進化、発展',
+                'transformation': '変身、変換',
+                'transition': '移行、変遷',
+                'shift': 'シフト、変化',
+                'movement': '動き、運動',
+                'motion': '動き、運動',
+                'action': '行動、アクション',
+                'activity': '活動、アクティビティ',
+                'operation': '操作、運営',
+                'function': '機能、関数',
+                'performance': 'パフォーマンス、性能',
+                'efficiency': '効率、能率',
+                'effectiveness': '効果、有効性',
+                'productivity': '生産性、生産力',
+                'capacity': '容量、能力',
+                'capability': '能力、可能性',
+                'potential': '可能性、潜在的な',
+                'possibility': '可能性、見込み',
+                'probability': '確率、可能性',
+                'certainty': '確実性、確信',
+                'uncertainty': '不確実性、不安',
+                'doubt': '疑い、疑問',
+                'question': '質問、疑問',
+                'answer': '答え、回答',
+                'solution': '解決策、溶液',
+                'explanation': '説明、解説',
+                'description': '説明、記述',
+                'definition': '定義、明確化',
+                'instruction': '指示、指導',
+                'direction': '方向、指示',
+                'guidance': 'ガイダンス、指導',
+                'advice': 'アドバイス、助言',
+                'suggestion': '提案、示唆',
+                'recommendation': '推薦、勧告',
+                'proposal': '提案、プロポーザル',
+                'offer': '申し出、提供',
+                'invitation': '招待、招待状',
+                'request': '要求、リクエスト',
+                'demand': '要求、需要',
+                'requirement': '要求、必要条件',
+                'specification': '仕様、明細',
+                'detail': '詳細、細部',
+                'feature': '特徴、機能',
+                'characteristic': '特徴、特性',
+                'property': '特性、財産',
+                'quality': '品質、質',
+                'attribute': '属性、特質',
+                'element': '要素、元素',
+                'component': '部品、構成要素',
+                'ingredient': '成分、材料',
+                'material': '材料、物質',
+                'substance': '物質、実質',
+                'matter': '物質、問題、重要',
+                'issue': '問題、課題、発行',
+                'topic': 'トピック、話題',
+                'subject': '主題、科目、対象',
+                'theme': 'テーマ、主題',
+                'content': 'コンテンツ、内容',
+                'information': '情報、案内',
+                'knowledge': '知識、知見',
+                'data': 'データ、資料',
+                'evidence': '証拠、根拠',
+                'proof': '証明、証拠',
+                'confirmation': '確認、承認',
+                'verification': '検証、確認',
+                'validation': '妥当性確認、検証',
+                'approval': '承認、許可',
+                'permission': '許可、承諾',
+                'authorization': '許可、認可',
+                'license': 'ライセンス、免許',
+                'certificate': '証明書、資格',
+                'document': '文書、書類',
+                'record': '記録、レコード',
+                'archive': 'アーカイブ、保管庫',
+                'collection': 'コレクション、収集',
+                'database': 'データベース、DB',
+                'library': 'ライブラリ、図書館',
+                'resource': 'リソース、資源',
+                'source': 'ソース、情報源',
+                'reference': '参考、言及',
+                'citation': '引用、出典',
+                'quote': '引用、見積もり',
+                'statement': '声明、発言',
+                'comment': 'コメント、意見',
+                'remark': '発言、意見',
+                'observation': '観察、観測',
+                'note': 'ノート、メモ、音符',
+                'memo': 'メモ、覚書',
+                'reminder': 'リマインダー、思い出させるもの',
+                'warning': '警告、注意',
+                'notice': '通知、お知らせ',
+                'announcement': '発表、アナウンス',
+                'advertisement': '広告、宣伝',
+                'promotion': 'プロモーション、昇進',
+                'marketing': 'マーケティング、販売',
+                'sales': '販売、売上',
+                'purchase': '購入、買い物',
+                'transaction': '取引、トランザクション',
+                'exchange': '交換、取引所',
+                'trade': '貿易、取引、商売',
+                'commerce': '商業、商取引',
+                'industry': '産業、工業',
+                'manufacturing': '製造業、製造',
+                'production': '生産、製造',
+                'supply': '供給、サプライ',
+                'distribution': '配布、流通',
+                'delivery': '配達、納期',
+                'shipping': '発送、輸送',
+                'transportation': '輸送、交通',
+                'logistics': '物流、ロジスティクス',
+                'storage': '保管、ストレージ',
+                'warehouse': '倉庫、ウェアハウス',
+                'inventory': '在庫、目録',
+                'stock': '在庫、株式',
+                'investment': '投資、出資',
+                'finance': '金融、財政',
+                'economy': '経済、節約',
+                'budget': '予算、バジェット',
+                'expense': '費用、支出',
+                'income': '収入、所得',
+                'profit': '利益、儲け',
+                'revenue': '収益、歳入',
+                'cost': '費用、コスト',
+                'price': '価格、値段',
+                'fee': '料金、手数料',
+                'charge': '料金、充電、告発',
+                'bill': '請求書、紙幣',
+                'account': 'アカウント、口座、説明',
+                'balance': 'バランス、残高',
+                'credit': 'クレジット、信用',
+                'debt': '借金、負債',
+                'loan': 'ローン、貸付',
+                'mortgage': '住宅ローン、抵当',
+                'insurance': '保険、保障',
+                'tax': '税金、課税',
+                'rate': '料金、率、評価',
+                'percentage': 'パーセンテージ、割合',
+                'ratio': '比率、割合',
+                'proportion': '割合、比例',
+                'fraction': '分数、一部',
+                'portion': '部分、分け前',
+                'share': '共有、分け前、株',
+                'division': '部門、分割',
+                'category': 'カテゴリー、部門',
+                'classification': '分類、区分',
+                'type': 'タイプ、種類',
+                'kind': '種類、親切な',
+                'sort': '種類、並べ替える',
+                'variety': '種類、多様性',
+                'brand': 'ブランド、銘柄',
+                'label': 'ラベル、レッテル',
+                'tag': 'タグ、札',
+                'mark': 'マーク、印、評価',
+                'sign': 'サイン、看板、兆候',
+                'symbol': 'シンボル、記号',
+                'icon': 'アイコン、象徴',
+                'logo': 'ロゴ、シンボルマーク',
+                'badge': 'バッジ、記章',
+                'medal': 'メダル、勲章',
+                'trophy': 'トロフィー、優勝杯',
+                'award': '賞、授与',
+                'honor': '名誉、光栄',
+                'recognition': '認識、認知',
+                'appreciation': '感謝、評価',
+                'gratitude': '感謝、謝意',
+                'thanks': 'ありがとう、感謝',
+                'respect': '尊敬、敬意',
+                'admiration': '称賛、感嘆',
+                'praise': '称賛、褒める',
+                'compliment': '褒め言葉、お世辞',
+                'criticism': '批判、批評',
+                'feedback': 'フィードバック、意見',
+                'review': 'レビュー、見直し',
+                'evaluation': '評価、査定',
+                'assessment': 'アセスメント、評価',
+                'judgment': '判断、判決',
+                'decision': '決定、決断',
+                'choice': '選択、選択肢',
+                'selection': '選択、選抜',
+                'preference': '好み、優先',
+                'favorite': 'お気に入り、好きな',
+                'interest': '興味、関心、利子',
+                'hobby': '趣味、ホビー',
+                'passion': '情熱、熱情',
+                'enthusiasm': '熱意、熱狂',
+                'excitement': '興奮、刺激',
+                'thrill': 'スリル、興奮',
+                'adventure': '冒険、アドベンチャー',
+                'challenge': '挑戦、チャレンジ',
+                'goal': 'ゴール、目標',
+                'objective': '目的、客観的な',
+                'target': 'ターゲット、標的',
+                'aim': '目的、狙う',
+                'intention': '意図、つもり',
+                'plan': '計画、プラン',
+                'strategy': '戦略、ストラテジー',
+                'approach': 'アプローチ、接近',
+                'method': '方法、メソッド',
+                'technique': 'テクニック、技術',
+                'skill': 'スキル、技能',
+                'talent': '才能、タレント',
+                'ability': '能力、才能',
+                'capacity': '能力、容量',
+                'strength': '強さ、力',
+                'power': '力、パワー、電力',
+                'energy': 'エネルギー、活力',
+                'force': '力、強制',
+                'effort': '努力、取り組み',
+                'work': '仕事、働く',
+                'labor': '労働、労力',
+                'task': 'タスク、課題',
+                'duty': '義務、職務',
+                'responsibility': '責任、義務',
+                'role': '役割、ロール',
+                'function': '機能、役割',
+                'position': '位置、地位',
+                'status': 'ステータス、地位',
+                'rank': 'ランク、階級',
+                'level': 'レベル、水準',
+                'grade': '等級、成績',
+                'class': 'クラス、授業、階級',
+                'course': 'コース、過程',
+                'lesson': 'レッスン、授業',
+                'subject': '科目、主題',
+                'topic': 'トピック、話題',
+                'field': '分野、野原',
+                'area': 'エリア、地域',
+                'domain': 'ドメイン、領域',
+                'scope': '範囲、スコープ',
+                'range': '範囲、レンジ',
+                'limit': '限界、制限',
+                'boundary': '境界、限界',
+                'border': '境界、ボーダー',
+                'edge': '端、縁',
+                'margin': 'マージン、余白',
+                'space': '空間、スペース',
+                'room': '部屋、余地',
+                'hall': 'ホール、廊下',
+                'lobby': 'ロビー、玄関ホール',
+                'entrance': '入口、エントランス',
+                'exit': '出口、退場',
+                'door': 'ドア、扉',
+                'window': '窓、ウィンドウ',
+                'wall': '壁、ウォール',
+                'floor': '床、階',
+                'ceiling': '天井、上限',
+                'roof': '屋根、ルーフ',
+                'stairs': '階段、ステアーズ',
+                'elevator': 'エレベーター、昇降機',
+                'escalator': 'エスカレーター、自動階段',
+                'corridor': '廊下、通路',
+                'hallway': '廊下、通路',
+                'pathway': '小道、経路',
+                'alley': '路地、小道',
+                'avenue': '大通り、アベニュー',
+                'boulevard': '大通り、並木道',
+                'highway': '高速道路、幹線道路',
+                'freeway': '高速道路、無料道路',
+                'tunnel': 'トンネル、地下道',
+                'bridge': '橋、ブリッジ',
+                'crossing': '横断歩道、交差点',
+                'intersection': '交差点、交差',
+                'junction': '合流点、接続点',
+                'connection': '接続、つながり',
+                'link': 'リンク、つながり',
+                'relationship': '関係、関係性',
+                'bond': '絆、結束',
+                'tie': 'ネクタイ、結ぶ、同点',
+                'association': '協会、関連',
+                'partnership': 'パートナーシップ、提携',
+                'alliance': '同盟、提携',
+                'union': '組合、結合',
+                'merger': '合併、統合',
+                'combination': '組み合わせ、結合',
+                'mixture': '混合、ミックス',
+                'blend': 'ブレンド、混合',
+                'fusion': '融合、フュージョン',
+                'integration': '統合、統一',
+                'synthesis': '合成、総合',
+                'coordination': '調整、協調',
+                'collaboration': 'コラボレーション、協力',
+                'cooperation': '協力、協調',
+                'teamwork': 'チームワーク、協力',
+                'partnership': 'パートナーシップ、協力関係',
+                'relationship': '関係、関係性',
+                'friendship': '友情、友達関係',
+                'companionship': '仲間関係、交際',
+                'fellowship': '交友、仲間意識',
+                'brotherhood': '兄弟愛、同胞',
+                'sisterhood': '姉妹関係、女性の連帯',
+                'kinship': '親族関係、親近感',
+                'ancestry': '祖先、家系',
+                'heritage': '遺産、伝統',
+                'legacy': '遺産、レガシー',
+                'inheritance': '相続、遺産',
+                'tradition': '伝統、慣習',
+                'custom': '習慣、慣例',
+                'culture': '文化、教養',
+                'civilization': '文明、文化',
+                'society': '社会、協会',
+                'community': 'コミュニティ、共同体',
+                'neighborhood': '近所、地域',
+                'district': '地区、区域',
+                'region': '地域、地方',
+                'territory': '領土、縄張り',
+                'province': '州、県',
+                'state': '州、状態',
+                'nation': '国家、国民',
+                'country': '国、田舎',
+                'continent': '大陸、大陸の',
+                'planet': '惑星、地球',
+                'universe': '宇宙、全世界',
+                'galaxy': '銀河系、銀河',
+                'solar': '太陽の、ソーラー',
+                'cosmic': '宇宙の、コスミック',
+                'space': '宇宙、空間',
+                'dimension': '次元、寸法',
+                'scale': 'スケール、規模',
+                'magnitude': '大きさ、重要度',
+                'extent': '範囲、程度',
+                'degree': '度、程度',
+                'intensity': '強度、激しさ',
+                'strength': '強さ、力',
+                'weakness': '弱さ、弱点',
+                'vulnerability': '脆弱性、弱点',
+                'fragility': 'もろさ、壊れやすさ',
+                'durability': '耐久性、持続性',
+                'stability': '安定性、安定',
+                'reliability': '信頼性、確実性',
+                'consistency': '一貫性、整合性',
+                'accuracy': '正確性、精度',
+                'precision': '精密さ、正確性',
+                'clarity': '明確さ、透明度',
+                'transparency': '透明性、透明度',
+                'visibility': '可視性、知名度',
+                'awareness': '意識、認識',
+                'consciousness': '意識、自覚',
+                'understanding': '理解、理解力',
+                'comprehension': '理解、把握',
+                'knowledge': '知識、知見',
+                'wisdom': '知恵、賢明さ',
+                'intelligence': '知能、情報',
+                'genius': '天才、才能',
+                'brilliance': '優秀さ、輝き',
+                'excellence': '優秀、卓越',
+                'superiority': '優位性、優越',
+                'advantage': '利点、優位',
+                'benefit': '利益、恩恵',
+                'gain': '利得、獲得',
+                'profit': '利益、儲け',
+                'success': '成功、成果',
+                'achievement': '達成、成果',
+                'accomplishment': '達成、業績',
+                'victory': '勝利、勝ち',
+                'triumph': '勝利、成功',
+                'conquest': '征服、攻略',
+                'domination': '支配、優勢',
+                'leadership': 'リーダーシップ、指導力',
+                'guidance': '指導、ガイダンス',
+                'direction': '方向、指示',
+                'instruction': '指示、教育',
+                'education': '教育、学歴',
+                'training': '訓練、研修',
+                'development': '開発、発達',
+                'growth': '成長、拡大',
+                'expansion': '拡張、拡大',
+                'extension': '延長、拡張',
+                'improvement': '改善、向上',
+                'enhancement': '強化、向上',
+                'upgrade': 'アップグレード、向上',
+                'advancement': '進歩、昇進',
+                'progress': '進歩、進展',
+                'evolution': '進化、発展',
+                'revolution': '革命、大変革',
+                'transformation': '変革、変身',
+                'change': '変化、変更',
+                'modification': '修正、変更',
+                'adjustment': '調整、適応',
+                'adaptation': '適応、脚色',
+                'flexibility': '柔軟性、融通性',
+                'versatility': '多才、多様性',
+                'diversity': '多様性、多様',
+                'variety': '多様性、種類',
+                'range': '範囲、種類',
+                'spectrum': 'スペクトラム、範囲',
+                'scope': '範囲、領域',
+                'coverage': 'カバレッジ、適用範囲',
+                'inclusion': '包含、包括',
+                'exclusion': '除外、排除',
+                'exception': '例外、特例',
+                'rule': 'ルール、規則',
+                'regulation': '規制、規則',
+                'standard': '標準、基準',
+                'criterion': '基準、判定基準',
+                'benchmark': 'ベンチマーク、基準点',
+                'reference': '参考、基準',
+                'guideline': 'ガイドライン、指針',
+                'principle': '原則、主義',
+                'philosophy': '哲学、思想',
+                'ideology': 'イデオロギー、思想',
+                'belief': '信念、信仰',
+                'conviction': '確信、信念',
+                'faith': '信仰、信頼',
+                'trust': '信頼、信用',
+                'confidence': '自信、信頼',
+                'assurance': '保証、確信',
+                'guarantee': '保証、保障',
+                'warranty': '保証、保証書',
+                'promise': '約束、見込み',
+                'commitment': '約束、責任',
+                'obligation': '義務、責任',
+                'requirement': '要求、必要条件',
+                'necessity': '必要性、必需品',
+                'essential': '必須の、本質的な',
+                'fundamental': '基本的な、根本的な',
+                'basic': '基本的な、基礎の',
+                'primary': '主要な、初等の',
+                'main': '主な、メインの',
+                'major': '主要な、大きな',
+                'minor': '軽微な、小さな',
+                'secondary': '二次的な、副の',
+                'additional': '追加の、付加的な',
+                'extra': '余分な、特別な',
+                'bonus': 'ボーナス、特典',
+                'reward': '報酬、褒美',
+                'incentive': 'インセンティブ、動機',
+                'motivation': 'モチベーション、動機',
+                'inspiration': 'インスピレーション、霊感',
+                'encouragement': '励まし、奨励',
+                'support': 'サポート、支援',
+                'assistance': '支援、援助',
+                'help': '助け、手伝い',
+                'aid': '援助、支援',
+                'relief': '救済、安堵',
+                'rescue': '救助、救出',
+                'salvation': '救済、救い',
+                'protection': '保護、守り',
+                'defense': '防衛、防御',
+                'security': 'セキュリティ、安全',
+                'safety': '安全、無事',
+                'shelter': '避難所、シェルター',
+                'refuge': '避難所、逃げ場',
+                'sanctuary': '聖域、避難所',
+                'haven': '避難所、港',
+                'harbor': '港、避難所',
+                'port': '港、ポート',
+                'destination': '目的地、行き先',
+                'arrival': '到着、到来',
+                'departure': '出発、離れること',
+                'journey': '旅、旅行',
+                'voyage': '航海、旅',
+                'expedition': '遠征、探検',
+                'mission': 'ミッション、使命',
+                'quest': '探求、クエスト',
+                'search': '検索、探索',
+                'investigation': '調査、捜査',
+                'research': '研究、調査',
+                'study': '勉強、研究',
+                'analysis': '分析、解析',
+                'examination': '検査、試験',
+                'inspection': '検査、点検',
+                'observation': '観察、観測',
+                'monitoring': '監視、モニタリング',
+                'surveillance': '監視、見張り',
+                'supervision': '監督、指導',
+                'management': '管理、経営',
+                'administration': '管理、行政',
+                'governance': '統治、ガバナンス',
+                'leadership': 'リーダーシップ、指導',
+                'authority': '権威、権限',
+                'power': '権力、力',
+                'influence': '影響、影響力',
+                'impact': '影響、インパクト',
+                'effect': '効果、影響',
+                'consequence': '結果、影響',
+                'outcome': '結果、成果',
+                'result': '結果、成果'
             };
 
             const lowerWord = word.toLowerCase();
-            if (commonTranslations[lowerWord]) {
-                return commonTranslations[lowerWord];
+            if (aiTranslations[lowerWord]) {
+                return aiTranslations[lowerWord];
             }
 
             try {
